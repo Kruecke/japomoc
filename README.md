@@ -1,4 +1,4 @@
-# japomoc
+# JaPomoC
 Just another Pokémon Clone
 
 ## Installing GLFW
@@ -14,5 +14,5 @@ $ make
 Make sure that your files will be found, if you use `/usr/local/` as your installation prefix.
 ```
 $ echo "export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH" >> ~/.profile
-$ echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH" >> ~/.profile
+$ echo "export LD_LIBRARY_PATH=/usr/local/lib:\$LD_LIBRARY_PATH"           >> ~/.profile
 ```
