@@ -1,22 +1,29 @@
-#include <GL/freeglut.h>
-
-static void callback_renderscene() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glutSwapBuffers();
-}
+#include <GLFW/glfw3.h>
 
 int main(int argc, char **argv) {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowSize(800, 600);
-    glutInitWindowPosition(100, 100);
-    glutCreateWindow("Test 1");
+    // Initialize GLFW
+    if (!glfwInit())
+        return 1;
+    struct eos_glfw { ~eos_glfw() {glfwTerminate();} } eos_terminate;
 
-    glutDisplayFunc(callback_renderscene);
+    // Create window with OpenCL context
+    GLFWwindow *window = glfwCreateWindow(800, 600, "Test", nullptr, nullptr);
+    if (!window)
+        return 1;
 
-    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+    // !?
+    glfwMakeContextCurrent(window);
 
-    glutMainLoop();
+    // Loop until the user closes the window
+    while (!glfwWindowShouldClose(window)) {
+        // TODO: Render
+        
+        // Swap buffers
+        glfwSwapBuffers(window);
 
-    return EXIT_SUCCESS;
+        // Poll events
+        glfwPollEvents();
+    }
+
+    return 0;
 }
