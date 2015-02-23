@@ -1,6 +1,9 @@
 # JaPomoC
 Just another Pokémon Clone
 
+TODO: Have a look at http://www.sfml-dev.org/documentation/2.2/
+      This might be a good alternative to GLFW, maybe even a better one.
+
 ## Installing GLFW
 On Debian, make sure you have `xorg-dev` and `libglu1-mesa-dev` installed. See http://www.glfw.org/docs/latest/compile.html for other operating systems.
 ```
