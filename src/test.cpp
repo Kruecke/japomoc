@@ -1,67 +1,52 @@
-#include <GLFW/glfw3.h>
-#include <iostream>
-#include <memory>
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 
-static void error_callback(int error, const char *description) {
-    std::cerr << description << std::endl;
-}
-
-static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-}
-
-int main(int argc, char **argv) {
-    // Initialize GLFW
-    glfwSetErrorCallback(error_callback);
-    if (!glfwInit())
-        return 1;
-    struct eos_glfw { ~eos_glfw() {glfwTerminate();} } eos_terminate;
-
-    // Create window with OpenCL context
-    auto window = std::shared_ptr<GLFWwindow>(glfwCreateWindow(800, 600, "Test", nullptr, nullptr), glfwDestroyWindow);
-    if (window == nullptr)
-        return 1;
-
-    // Make the window context current
-    glfwMakeContextCurrent(window.get());
-    glfwSwapInterval(1);
-
-    // Set callback function for inputs
-    glfwSetKeyCallback(window.get(), key_callback);
-
-    // Loop until the user closes the window
-    while (!glfwWindowShouldClose(window.get())) {
-        // Get size of framebuffer
-        int width, height;
-        float ratio;
-        glfwGetFramebufferSize(window.get(), &width, &height);
-        ratio = width / (float) height;
+int main() {
+    // Create the main window
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML window");
+    
+    // Load a sprite to display
+    sf::Texture texture;
+    if (!texture.loadFromFile("resources/test.jpg"))
+        return EXIT_FAILURE;
+    sf::Sprite sprite(texture);
+    
+    // Create a graphical text to display
+    sf::Font font;
+    if (!font.loadFromFile("resources/DejaVuSans.ttf"))
+        return EXIT_FAILURE;
+    sf::Text text("Hello SFML", font, 50);
+    
+    // Load a music to play
+    sf::Music music;
+    if (!music.openFromFile("resources/test.ogg"))
+        return EXIT_FAILURE;
+    
+    // Play the music
+    music.play();
+    
+    // Start the game loop
+    while (window.isOpen()) {
+        // Process events
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            // Close window: exit
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
         
-        glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(-ratio, ratio, -1.0f, 1.0f, 1.0f, -1.0f);
-        glMatrixMode(GL_MODELVIEW);
-
-        glLoadIdentity();
-        glRotatef((float) (glfwGetTime() * 50), 0.0f, 0.0f, 1.0f);
-
-        glBegin(GL_TRIANGLES);
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex3f(-0.6f, -0.4f, 0.0f);
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex3f(0.6f, -0.4f, 0.0f);
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex3f(0.0f, 0.6f, 0.0f);
-        glEnd();
-
-        // Swap buffers and poll events
-        glfwSwapBuffers(window.get());
-        glfwPollEvents();
+        // Clear screen
+        window.clear();
+        
+        // Draw the sprite
+        window.draw(sprite);
+        
+        // Draw the string
+        window.draw(text);
+        
+        // Update the window
+        window.display();
     }
-
-    return 0;
+    return EXIT_SUCCESS;
 }
+
