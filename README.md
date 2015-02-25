@@ -10,19 +10,9 @@ To download and install JaPomoC, make sure you have git, cmake and your basic bu
 ### Installing SFML
 JaPomoC depends on the "Simple and Fast Multimedia Library". If you are running a Debian-like system, you can install SFML with the following instructions. For other operating systems, have a look at http://www.sfml-dev.org/tutorials/2.2/.
 
-#### Install from repository
-First, check the `libcsfml-dev` package in your repository.
-```
-$ apt-cache show libcsfml-dev | grep Version
-```
-If it's version is **2.0 or greater**, just go ahead, install the package and you can skip to "Installing JaPomoC".
-```
-# apt-get install libcsfml-dev
-```
-For example, this is true for current distributions of Ubuntu.
+As of now, it seems that there is no current or well packed repository version of SFML available, so you have to build SFML from source. Hopefully, this can be changed in the future.
 
-#### Install from source
-If the repository version is not recent enough, you have to build SFML from source. Install the necessary dependencies from the repositories.
+Install the necessary dependencies from the repositories.
 ```
 # apt-get install libx11-dev libxrandr-dev libgl1-mesa-dev libx11-xcb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libudev-dev libglew-dev libjpeg8-dev libfreetype6-dev libopenal-dev libsndfile1-dev
 ```
