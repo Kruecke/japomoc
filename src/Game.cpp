@@ -10,10 +10,6 @@ Game::Game() : m_exit(false) {
         std::cerr << "Could not load game font!" << std::endl;
 }
 
-bool Game::exit() const {
-    return m_exit;
-}
-
 void Game::push_component(const std::shared_ptr<GameComponent>& component) {
     // Pause the current component
     if (!m_comp_stack.empty())
@@ -50,4 +46,8 @@ void Game::dispatch_other() const {
 
 const sf::Font& Game::font() const {
     return m_font;
+}
+
+bool Game::exit() const {
+    return m_exit;
 }
