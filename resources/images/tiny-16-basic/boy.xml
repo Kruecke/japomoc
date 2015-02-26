@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<character>
+    <spritesheet>resources/images/tiny-16-basic/characters.png</spritesheet>
+    <animation id="down">
+        <frame x="64" y="0" width="16" height="16"/>
+        <frame x="48" y="0" width="16" height="16"/>
+        <frame x="64" y="0" width="16" height="16"/>
+        <frame x="80" y="0" width="16" height="16"/>
+    </animation>
+    <animation id="left">
+        <frame x="64" y="16" width="16" height="16"/>
+        <frame x="48" y="16" width="16" height="16"/>
+        <frame x="64" y="16" width="16" height="16"/>
+        <frame x="80" y="16" width="16" height="16"/>
+    </animation>
+    <animation id="right">
+        <frame x="64" y="32" width="16" height="16"/>
+        <frame x="48" y="32" width="16" height="16"/>
+        <frame x="64" y="32" width="16" height="16"/>
+        <frame x="80" y="32" width="16" height="16"/>
+    </animation>
+    <animation id="up">
+        <frame x="64" y="48" width="16" height="16"/>
+        <frame x="48" y="48" width="16" height="16"/>
+        <frame x="64" y="48" width="16" height="16"/>
+        <frame x="80" y="48" width="16" height="16"/>
+    </animation>
+</character>
