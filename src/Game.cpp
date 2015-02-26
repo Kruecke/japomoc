@@ -51,3 +51,8 @@ const sf::Font& Game::font() const {
 bool Game::exit() const {
     return m_exit;
 }
+
+void Game::exit(bool exit) {
+    // TODO: Ask the user?
+    m_exit = exit;
+}

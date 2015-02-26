@@ -1,6 +1,8 @@
 #pragma once
 
+#include <functional>
 #include <string>
+#include <tuple>
 #include <vector>
 
 #include "GameComponent.h"
@@ -19,6 +21,6 @@ class Menu : public GameComponent {
     private:
         void render_menu(sf::RenderWindow&) const;
 
-        std::vector<std::string> m_items;
+        std::vector<std::tuple<std::string, std::function<void(void)>>> m_items;
         int m_cursor_pos; //!< Menu item pointed on by the cursor.
 };

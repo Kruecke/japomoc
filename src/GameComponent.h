@@ -31,7 +31,7 @@ class GameComponent {
 
         /*! This function will be called by the game when the component is
          *  pushed to the game component stack. */
-        virtual void register_game(const Game*);
+        virtual void register_game(Game*);
         /*! Pause will be called by the game when the component goes to the
          *  background. */
         virtual void pause();
@@ -40,7 +40,7 @@ class GameComponent {
         virtual void resume();
 
     protected:
-        const Game *m_game; //!< Reference to the game instance.
+        Game *m_game;  //!< Reference to the game instance.
         bool m_active; /*!< Tells whether this component is running or not.
                         *   Every component starts inactive and is being
                         *   activated by the game on demand. */

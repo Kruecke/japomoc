@@ -30,6 +30,10 @@ class Game {
         *  user input. */
         bool exit() const;
 
+        /*! Request game exit by passing 'true' or cancel a request by passing
+         *  'false'. */
+        void exit(bool);
+
     private:
         std::vector<std::shared_ptr<GameComponent>> m_comp_stack;
         sf::Font m_font; //!< Common game font
