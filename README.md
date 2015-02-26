@@ -61,6 +61,6 @@ $ cmake -D SFML_ROOT=../SFML-2.2 ..
 $ cp ../../SFML-2.2/bin/* .
 ```
 
-Finally, open your file explorer and browse to `Sources` -> `japomoc` -> `build` and double-click `japomoc.sln` to load the solution into Visual Studio. In your `Solution Explorer` (probably on the right side of your screen), right-click the `japomoc` project and choose `Set as StartUp Project`. Now you can click the green "Play" arrow at the top (or push F5) to run the game.
+Finally, open your file explorer and browse to `Sources` -> `japomoc` -> `build` and double-click `japomoc.sln` to load the solution into Visual Studio. In your `Solution Explorer` (probably on the right side of your screen), right-click the `japomoc` project and choose `Set as StartUp Project`. Now you can click the green "Play" arrow at the top (or push F5) to run the game. (This can take a moment the first time you run it.)
 
-There is no installation routine yet. Sorry. :P
+There is no installation routine yet. You have to run the game via Visual Studio (or from the `build` directory via command line). Sorry. :P
