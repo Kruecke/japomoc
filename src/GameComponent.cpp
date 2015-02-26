@@ -4,6 +4,10 @@ GameComponent::GameComponent() : m_active(false) {}
 
 GameComponent::~GameComponent() {}
 
+void GameComponent::register_game(const Game *game) {
+    m_game = game;
+}
+
 void GameComponent::pause() {
     m_active = false;
 }

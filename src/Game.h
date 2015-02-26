@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "GameComponent.h"
+class GameComponent;
 
 class Game {
     public:
@@ -21,7 +21,10 @@ class Game {
         void dispatch_event(sf::Event&);
         void dispatch_other() const;
 
+        const sf::Font& font() const;
+
     private:
         bool m_exit; //!< Whether the game is about to quit or not.
         std::vector<std::shared_ptr<GameComponent>> m_comp_stack;
+        sf::Font m_font;
 };

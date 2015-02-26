@@ -1,8 +1,14 @@
 #include "Game.h"
 
 #include <cassert>
+#include <iostream>
 
-Game::Game() : m_exit(false) {}
+#include "GameComponent.h"
+
+Game::Game() : m_exit(false) {
+    if(!m_font.loadFromFile("resources/dejavu-fonts/DejaVuSans.ttf"))
+        std::cerr << "Could not load game font!" << std::endl;
+}
 
 bool Game::exit() const {
     return m_exit;
@@ -15,6 +21,7 @@ void Game::push_component(const std::shared_ptr<GameComponent>& component) {
 
     // Push component to stack and make it active
     m_comp_stack.emplace_back(component);
+    component->register_game(this);
     component->resume();
 }
 
@@ -39,4 +46,8 @@ void Game::dispatch_other() const {
     assert(!m_comp_stack.empty());
 
     m_comp_stack.back()->handle_other();
+}
+
+const sf::Font& Game::font() const {
+    return m_font;
 }
