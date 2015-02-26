@@ -29,6 +29,8 @@
 #include <iostream>
 #include <string>
 
+#include "World.h"
+
 Menu::Menu() : m_cursor_pos(0) {
     // Add basic menu entries
     m_items.emplace_back("Quit game", [this]() {
@@ -54,7 +56,7 @@ bool Menu::rendering_fills_scene() const {
 }
 
 void Menu::render_scene(sf::RenderWindow &window) const {
-    // TODO
+    // TODO: Make everything beautiful!
     render_background(window);
     render_menu(window);
 }
@@ -65,14 +67,14 @@ void Menu::handle_event(sf::Event &event) {
             m_cursor_pos = (m_cursor_pos - 1 + m_items.size()) % m_items.size();
         if (event.key.code == sf::Keyboard::Down)
             m_cursor_pos = (m_cursor_pos + 1) % m_items.size();
-        if (event.key.code == sf::Keyboard::Return) {
+        if (event.key.code == sf::Keyboard::Return)
+            // Execute item function
             std::get<1>(m_items[m_cursor_pos])();
-        }
     }
 }
 
 void Menu::handle_other() {
-    // TODO
+    // Nothing to do here
 }
 
 void Menu::register_game(Game *game) {
@@ -82,11 +84,19 @@ void Menu::register_game(Game *game) {
     // Check game component below and add menu entries
     auto next = game->next_component_to(this);
     if (next == nullptr) {
+        // This is the base menu. Add a button to start the game.
         m_items.emplace(m_items.begin(), "Start game", [this]() {
             assert(m_game != nullptr);
-            //m_game->push_component(...); // TODO: Push new game
+            m_game->push_component(std::make_shared<World>());
         });
-    } // TODO: Add further situations
+    } else if (typeid(*next) == typeid(World)) {
+        // This is a "pause" menu. Add a button to get back to the game.
+        m_items.emplace(m_items.begin(), "Back to game", [this]() {
+            assert(m_game != nullptr);
+            m_game->pop_component();
+        });
+    }
+    // TODO: Add further situations
 }
 
 void Menu::pause() {
