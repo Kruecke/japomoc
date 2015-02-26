@@ -70,6 +70,12 @@ void Menu::handle_event(sf::Event &event) {
         if (event.key.code == sf::Keyboard::Return)
             // Execute item function
             std::get<1>(m_items[m_cursor_pos])();
+        if (event.key.code == sf::Keyboard::Escape) {
+            assert(m_game != nullptr);
+            // If this is not a base menu, make 'escape' go back last component.
+            if (m_game->next_component_to(this) != nullptr)
+                m_game->pop_component();
+        }
     }
 }
 
