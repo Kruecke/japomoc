@@ -14,6 +14,12 @@ class Game {
          *  handle events. */
         void push_component(const std::shared_ptr<GameComponent>&);
 
+        /*! Return the game component on stack right below the given one. A
+         *  nullptr will be returned if there is no match. (Which means that
+         *  either the given component is the base of the stack or the given
+         *  component is not on the stack at all.) */
+        std::shared_ptr<GameComponent> next_component_to(GameComponent*) const;
+
         /*! Called by the render thread to pass control of what will be drawn to
          *  the game. */
         void dispatch_rendering(sf::RenderWindow&) const;
