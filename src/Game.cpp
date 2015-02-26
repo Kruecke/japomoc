@@ -2,12 +2,15 @@
 
 #include <cassert>
 #include <iostream>
+#include <string>
 
 #include "GameComponent.h"
 
 Game::Game() : m_exit(false) {
-    if(!m_font.loadFromFile("resources/dejavu-fonts/DejaVuSans.ttf"))
-        std::cerr << "Could not load game font!" << std::endl;
+    // Load game font
+    const std::string font_path = "resources/dejavu-fonts/DejaVuSans.ttf";
+    if(!m_font.loadFromFile(font_path))
+        std::cerr << "Could not load " << font_path << "!" << std::endl;
 }
 
 void Game::push_component(const std::shared_ptr<GameComponent>& component) {
