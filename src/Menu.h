@@ -24,6 +24,6 @@ class Menu : public GameComponent {
         void render_menu(sf::RenderWindow&) const;
 
         std::vector<std::tuple<std::string, std::function<void(void)>>> m_items;
-        int m_cursor_pos; //!< Menu item pointed on by the cursor.
+        std::size_t m_cursor_pos; //!< Menu item pointed on by the cursor.
         sf::Texture m_background;
 };
