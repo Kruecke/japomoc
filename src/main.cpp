@@ -1,7 +1,9 @@
 #include <SFML/Graphics.hpp>
+#include <memory>
 #include <thread>
 
 #include "Game.h"
+#include "Menu.h"
 
 /*! Main function of the rendering thread. The actual rendering will be done
  *  by the current game component. */
@@ -22,6 +24,9 @@ static void render_function(const Game *game, sf::RenderWindow *window) {
 int main() {
     // Create game instance
     Game game;
+
+    // Create the first game component: The main menu
+    game.push_component(std::make_shared<Menu>());
 
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "JaPomoC");
