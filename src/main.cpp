@@ -6,7 +6,7 @@
 #include "Menu.h"
 
 /*! Main function of the rendering thread. The actual rendering will be done
- *  by the current game component. */
+ *  within the currently displayed game component. */
 static void render_function(const Game *game, sf::RenderWindow *window) {
     // Handle rendering
     while (!game->exit()) {
@@ -19,7 +19,7 @@ static void render_function(const Game *game, sf::RenderWindow *window) {
     }
 }
 
-/*! Main function. Instantiate the game, the drawing window and the rendering
+/*! Main function. Instantiates the game, the drawing window and the rendering
  *  thread. */
 int main() {
     // Create game instance
@@ -44,7 +44,8 @@ int main() {
             game.dispatch_event(event);
         }
 
-        // Give the game the chance to handle other things like querying the keyboard.
+        // Give the game the chance to handle other things like querying the
+        // keyboard.
         game.dispatch_other();
     }
 
