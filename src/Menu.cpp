@@ -16,6 +16,12 @@ Menu::Menu() : m_cursor_pos(0) {
     const std::string bg_path = "resources/images/menu_background.png";
     if (!m_background.loadFromFile(bg_path))
         std::cerr << "Could not load " + bg_path << "!" << std::endl;
+
+    // Load music
+    const std::string music_path = "resources/audio/menu.ogg";
+    if (!m_music.openFromFile(music_path))
+        std::cerr << "Could not load " + music_path << "!" << std::endl;
+    m_music.setLoop(true);
 }
 
 bool Menu::rendering_fills_scene() const {
@@ -43,6 +49,36 @@ void Menu::handle_event(sf::Event &event) {
 
 void Menu::handle_other() {
     // TODO
+}
+
+void Menu::register_game(Game *game) {
+    // Call base class implementation. See GameComponent header commentary.
+    GameComponent::register_game(game);
+
+    // Check game component below and add menu entries
+    auto next = game->next_component_to(this);
+    if (next == nullptr) {
+        m_items.emplace(m_items.begin(), "Start game", [this]() {
+            assert(m_game != nullptr);
+            //m_game->push_component(...); // TODO: Push new game
+        });
+    } // TODO: Add further situations
+}
+
+void Menu::pause() {
+    // Call base class implementation. See GameComponent header commentary.
+    GameComponent::pause();
+
+    // Stop music
+    m_music.stop();
+}
+
+void Menu::resume() {
+    // Call base class implementation. See GameComponent header commentary.
+    GameComponent::resume();
+
+    // Start music
+    m_music.play();
 }
 
 void Menu::render_background(sf::RenderWindow &window) const {
