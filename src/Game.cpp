@@ -28,7 +28,8 @@ void Game::push_component(const std::shared_ptr<GameComponent>& component) {
     component->resume();
 }
 
-std::shared_ptr<GameComponent> Game::next_component_to(GameComponent *component) const {
+std::shared_ptr<GameComponent>
+Game::next_component_to(GameComponent *component) const {
     // Search component in stack
     auto it = std::find_if(m_comp_stack.begin(), m_comp_stack.end(),
         [&](const std::shared_ptr<GameComponent> &stack_comp) {

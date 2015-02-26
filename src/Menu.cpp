@@ -114,7 +114,8 @@ void Menu::render_menu(sf::RenderWindow &window) const {
         if (m_items.size() == 1)
             item.move(0.0f, view_size.y * 0.25f); // Move to middle
         else
-            item.move(0.0f, ((float) i / (m_items.size() - 1)) * view_size.y * 0.5f);
+            item.move(0.0f,
+                ((float) i / (m_items.size() - 1)) * view_size.y * 0.5f);
 
         window.draw(item);
     }
