@@ -15,26 +15,31 @@ Game::Game() : m_exit(false) {
 }
 
 void Game::push_component(const std::shared_ptr<GameComponent>& component) {
-    // Pause the current component
+    // Register the new component. The implementer might do something here that
+    // takes time, so do this before pausing the (still) current game component.
+    component->register_game(this);
+
+    // Pause the current (foreground) component
     if (!m_comp_stack.empty())
         m_comp_stack.back()->pause();
 
-    // Push component to stack and make it active
+    // Push component to stack and make it running
     m_comp_stack.emplace_back(component);
-    component->register_game(this);
     component->resume();
 }
 
 std::shared_ptr<GameComponent> Game::next_component_to(GameComponent *component) const {
+    // Search component in stack
     auto it = std::find_if(m_comp_stack.begin(), m_comp_stack.end(),
-        [&](const std::shared_ptr<GameComponent> &stack_comp)
-    {
-        return stack_comp.get() == component;
-    });
-    if (it == m_comp_stack.end() || it + 1 == m_comp_stack.end())
+        [&](const std::shared_ptr<GameComponent> &stack_comp) {
+            return stack_comp.get() == component;
+        });
+
+    if (it == m_comp_stack.end() || // Component not found
+        it == m_comp_stack.begin()) // Component is the last in stack
         return nullptr;
     else
-        return *(it + 1);
+        return *(it - 1);
 }
 
 void Game::dispatch_rendering(sf::RenderWindow &window) const {
