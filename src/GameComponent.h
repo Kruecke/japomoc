@@ -29,6 +29,11 @@ class GameComponent {
 
         /* ----- End of GameComponent interface. ---------------------------- */
 
+        /* The following functions can be overriden as well, if you need a hook
+         * to the moment when your component becomes registered, paused or
+         * resumed. If you do override them, make sure to call their base
+         * implementation as well to not break other functionality. */
+
         /*! This function will be called by the game when the component is
          *  pushed to the game component stack. */
         virtual void register_game(Game*);
