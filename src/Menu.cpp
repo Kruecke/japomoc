@@ -39,7 +39,7 @@ void Menu::render_menu(sf::RenderWindow &window) const {
         // Center text horizontally and set vertical offset
         sf::FloatRect bounds = item.getLocalBounds();
         item.setPosition((view_size.x - bounds.width)  * 0.5f,
-                  (0.5f * view_size.y - bounds.height) * 0.5);
+                  (0.5f * view_size.y - bounds.height) * 0.5f);
 
         // Move to correct vertical position
         item.move(0.0f, ((float) i / (m_items.size() - 1)) * view_size.y * 0.5f);
