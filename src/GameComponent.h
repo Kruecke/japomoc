@@ -58,14 +58,14 @@ class GameComponent {
          * resumed. If you do override them, make sure to call their base
          * implementation as well to not break other functionality. */
 
-        /*! This function will be called by the game when the component is
-         *  pushed to the game component stack. */
+        /*! This function will be called by the game right after the component
+         *  has been pushed to the game component stack. */
         virtual void register_game(Game*);
         /*! Pause will be called by the game when the component goes to the
-         *  background. */
+         *  background. The component is (still) at the top of the stack. */
         virtual void pause();
         /*! Resume will be called by the game when the component goes to the
-         *  foreground. */
+         *  foreground. The component is (again) at the top of the stack. */
         virtual void resume();
 
     protected:

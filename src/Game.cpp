@@ -39,17 +39,27 @@ Game::Game() : m_exit(false) {
 }
 
 void Game::push_component(const std::shared_ptr<GameComponent>& component) {
-    // Register the new component. The implementer might do something here that
-    // takes time, so do this before pausing the (still) current game component.
-    component->register_game(this);
-
     // Pause the current (foreground) component
     if (!m_comp_stack.empty())
         m_comp_stack.back()->pause();
 
     // Push component to stack and make it running
     m_comp_stack.emplace_back(component);
+    component->register_game(this);
+    // TODO: Maybe do a "fade animation" or something here? The call to
+    //       'register_game' could actually take some time, depending on what
+    //       the implementer has choosed to do there.
     component->resume();
+}
+
+void Game::pop_component() {
+    // Pause and remove the current component
+    m_comp_stack.back()->pause();
+    m_comp_stack.pop_back();
+
+    // Run the next component
+    assert(m_comp_stack.size() > 0);
+    m_comp_stack.back()->resume();
 }
 
 std::shared_ptr<GameComponent>

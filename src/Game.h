@@ -38,6 +38,9 @@ class Game {
          *  handle events. */
         void push_component(const std::shared_ptr<GameComponent>&);
 
+        /*! Pops the current game component and returns running the next one. */
+        void pop_component();
+
         /*! Return the game component on stack right below the given one. A
          *  nullptr will be returned if there is no match. (Which means that
          *  either the given component is the base of the stack or the given
