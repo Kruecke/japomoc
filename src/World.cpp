@@ -33,9 +33,13 @@
 World::World() {
     // Load player character
     const std::string char_path = "resources/images/tiny-16-basic/boy.xml";
-    if (!m_player.load_from_xml(char_path))
-        std::cerr << "Could not load player character \""
-                  << char_path << "\"!" << std::endl;
+    if (!m_player.load_from_xml(char_path)) {
+        std::cerr << "Could not load player character \"" << char_path << "\"!" << std::endl;
+        return; // TODO: Handle errors
+    }
+
+    // Player looks down by default
+    m_player.set_direction(AnimatedCharacter::Direction::DOWN);
 }
 
 bool World::rendering_fills_scene() const {
@@ -43,9 +47,10 @@ bool World::rendering_fills_scene() const {
     return true;
 }
 
-void World::render_scene(sf::RenderWindow &window) const {
+void World::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {
     // TODO: Implement
-    auto &player_sprite = m_player.get_animated_sprite();
+    AnimatedSprite &player_sprite = m_player.get_animated_sprite();
+    player_sprite.update(frame_time_delta);
     window.draw(player_sprite);
 }
 

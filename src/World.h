@@ -35,7 +35,7 @@ class World : public GameComponent {
 
         /* ----- GameComponent interface ------------------------------------ */
         virtual bool rendering_fills_scene() const override;
-        virtual void render_scene(sf::RenderWindow&) const override;
+        virtual void render_scene(sf::RenderWindow&, const sf::Time &frame_time_delta) override;
         virtual void handle_event(sf::Event&) override;
         virtual void handle_other() override;
         /* ----- End of GameComponent interface ----------------------------- */

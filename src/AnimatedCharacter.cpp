@@ -29,7 +29,10 @@
 
 #include "tinyxml2.h"
 
-AnimatedCharacter::AnimatedCharacter() : m_animations(4) {}
+AnimatedCharacter::AnimatedCharacter() : m_animations(4) {
+    // Don't move upon creation
+    m_animated_sprite.stop();
+}
 
 bool AnimatedCharacter::load_from_xml(const std::string &path) {
     tinyxml2::XMLDocument doc;
@@ -50,46 +53,77 @@ bool AnimatedCharacter::load_from_xml(const std::string &path) {
         return false;
     }
 
-    if (!m_sprite_sheet.loadFromFile(sheet->GetText())) {
-        std::cerr << "Could not load texture \"" << sheet->GetText() << "\"!" << std::endl;
+    // Load sprite sheet
+    const std::string sheet_path = sheet->GetText();
+    if (!m_sprite_sheet.loadFromFile(sheet_path)) {
+        std::cerr << "Could not load texture \"" << sheet_path << "\"!" << std::endl;
         return false;
     }
-
-
-
-    // TODO...
-    /*
-
-    std::cout << "Sheet path: " << sheet->GetText() << "\n";
 
     for (auto animation_it = root->FirstChildElement("animation");
         animation_it != nullptr;
         animation_it = animation_it->NextSiblingElement("animation"))
     {
-        std::string id = animation_it->Attribute("id"); // TODO: check nullptr
-        std::cout << "Animation: " << id << "\n";
+        const char *attr_id = animation_it->Attribute("id");
+        if (attr_id == nullptr) {
+            std::cerr << "Animation tag without \"id\"!" << std::endl;
+            return false;
+        }
+
+        Animation *animation = nullptr;
+        const std::string id = attr_id;
+        if (id.compare("up") == 0)
+            animation = &m_animations.at(Direction::UP);
+        else if (id.compare("down") == 0)
+            animation = &m_animations.at(Direction::DOWN);
+        else if (id.compare("left") == 0)
+            animation = &m_animations.at(Direction::LEFT);
+        else if (id.compare("right") == 0)
+            animation = &m_animations.at(Direction::RIGHT);
+        else {
+            std::cerr << "Unknown animation id \"" << id << "\"!" << std::endl;
+            return false;
+        }
+
+        // Add sprite sheet to animation
+        animation->setSpriteSheet(m_sprite_sheet);
 
         for (auto frame_it = animation_it->FirstChildElement("frame");
             frame_it != nullptr;
             frame_it = frame_it->NextSiblingElement("frame"))
         {
             sf::IntRect frame;
-            if (frame_it->QueryIntAttribute("x", &frame.left) != tinyxml2::XML_NO_ERROR)
-                std::cerr << "Could not read attribute!" << std::endl;
-            if (frame_it->QueryIntAttribute("y", &frame.top) != tinyxml2::XML_NO_ERROR)
-                std::cerr << "Could not read attribute!" << std::endl;
-            if (frame_it->QueryIntAttribute("width", &frame.width) != tinyxml2::XML_NO_ERROR)
-                std::cerr << "Could not read attribute!" << std::endl;
-            if (frame_it->QueryIntAttribute("height", &frame.height) != tinyxml2::XML_NO_ERROR)
-                std::cerr << "Could not read attribute!" << std::endl;
+            if (frame_it->QueryIntAttribute("x", &frame.left) != tinyxml2::XML_NO_ERROR) {
+                std::cerr << "Could not read attribute \"x\"!" << std::endl;
+                return false;
+            }
+            if (frame_it->QueryIntAttribute("y", &frame.top) != tinyxml2::XML_NO_ERROR) {
+                std::cerr << "Could not read attribute \"y\"!" << std::endl;
+                return false;
+            }
+            if (frame_it->QueryIntAttribute("width", &frame.width) != tinyxml2::XML_NO_ERROR) {
+                std::cerr << "Could not read attribute \"width\"!" << std::endl;
+                return false;
+            }
+            if (frame_it->QueryIntAttribute("height", &frame.height) != tinyxml2::XML_NO_ERROR) {
+                std::cerr << "Could not read attribute \"height\"!" << std::endl;
+                return false;
+            }
 
-            std::cout << "Frame: "
-                << frame.left << " " << frame.top << " "
-                << frame.width << " " << frame.height << "\n";
+            // Add frame to animation
+            animation->addFrame(frame);
         }
     }
 
-    */
+    // TODO: Check if the xml file provided all the information needed.
 
     return true;
+}
+
+AnimatedSprite& AnimatedCharacter::get_animated_sprite() {
+    return m_animated_sprite;
+}
+
+void AnimatedCharacter::set_direction(Direction direction) {
+    m_animated_sprite.setAnimation(m_animations.at(direction));
 }

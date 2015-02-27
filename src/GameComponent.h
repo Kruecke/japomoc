@@ -40,8 +40,9 @@ class GameComponent {
         virtual bool rendering_fills_scene() const = 0;
 
         /*! Will be called by the game to render the view. Implement your
-         *  drawing here. */
-        virtual void render_scene(sf::RenderWindow&) const = 0;
+         *  drawing here. The time that has passed since the last frame draw is
+         *  passed as a second parameter. This can be useful for animations. */
+        virtual void render_scene(sf::RenderWindow&, const sf::Time &frame_time_delta) = 0;
 
         /*! Will be called by the game to handle event. Implement your event
          *  handling here. */

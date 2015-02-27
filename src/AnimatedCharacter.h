@@ -29,13 +29,16 @@
 
 #include "AnimatedSprite.hpp"
 
+// TODO: Commentary!
+
 class AnimatedCharacter {
     public:
         enum Direction {UP, DOWN, LEFT, RIGHT};
 
         AnimatedCharacter();
         bool load_from_xml(const std::string &path);
-        const AnimatedSprite& get_animated_sprite() const;
+        AnimatedSprite& get_animated_sprite();
+        void set_direction(Direction);
 
     private:
         AnimatedSprite m_animated_sprite;

@@ -48,8 +48,9 @@ class Game {
         std::shared_ptr<GameComponent> next_component_to(GameComponent*) const;
 
         /*! Called by the render thread to pass control of what will be drawn to
-         *  the game. */
-        void dispatch_rendering(sf::RenderWindow&) const;
+         *  the game. The time that has passed since the last frame draw is
+         *  passed as a second parameter. */
+        void dispatch_rendering(sf::RenderWindow&, const sf::Time &frame_time_delta) const;
         /*! Called by the main thread to handle events. */
         void dispatch_event(sf::Event&);
         /*! Called by the main thread to give the game a chance to handle other

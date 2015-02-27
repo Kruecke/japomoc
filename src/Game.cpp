@@ -77,10 +77,10 @@ Game::next_component_to(GameComponent *component) const {
         return *(it - 1);
 }
 
-void Game::dispatch_rendering(sf::RenderWindow &window) const {
+void Game::dispatch_rendering(sf::RenderWindow &window, const sf::Time &frame_time_delta) const {
     assert(!m_comp_stack.empty());
 
-    m_comp_stack.back()->render_scene(window);
+    m_comp_stack.back()->render_scene(window, frame_time_delta);
 }
 
 void Game::dispatch_event(sf::Event &event) {

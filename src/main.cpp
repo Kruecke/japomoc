@@ -32,12 +32,14 @@
 /*! Main function of the rendering thread. The actual rendering will be done
  *  within the currently displayed game component. */
 static void render_function(const Game *game, sf::RenderWindow *window) {
+    sf::Clock frame_timer;
+
     // Handle rendering
     while (!game->exit()) {
         window->clear(sf::Color::Black);
 
         // Let the game choose which component to render.
-        game->dispatch_rendering(*window);
+        game->dispatch_rendering(*window, frame_timer.restart());
         
         window->display();
     }
