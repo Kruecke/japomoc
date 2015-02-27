@@ -26,6 +26,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <string>
 
 #include "Menu.h"
 #include "tinyxml2.h"
@@ -47,15 +48,23 @@ World::World() {
         animation_it != nullptr;
         animation_it = animation_it->NextSiblingElement("animation"))
     {
-        std::cout << "Animation\n";
+        std::string id = animation_it->Attribute("id"); // TODO: check nullptr
+        std::cout << "Animation: " << id << "\n";
+
         for (auto frame_it = animation_it->FirstChildElement("frame");
             frame_it != nullptr;
             frame_it = frame_it->NextSiblingElement("frame"))
         {
-            sf::IntRect frame(frame_it->IntAttribute("x"),
-                              frame_it->IntAttribute("y"),
-                              frame_it->IntAttribute("width"),
-                              frame_it->IntAttribute("height"));
+            sf::IntRect frame;
+            if (frame_it->QueryIntAttribute("x", &frame.left) != tinyxml2::XML_NO_ERROR)
+                std::cerr << "Could not read attribute!" << std::endl;
+            if (frame_it->QueryIntAttribute("y", &frame.top) != tinyxml2::XML_NO_ERROR)
+                std::cerr << "Could not read attribute!" << std::endl;
+            if (frame_it->QueryIntAttribute("width", &frame.width) != tinyxml2::XML_NO_ERROR)
+                std::cerr << "Could not read attribute!" << std::endl;
+            if (frame_it->QueryIntAttribute("height", &frame.height) != tinyxml2::XML_NO_ERROR)
+                std::cerr << "Could not read attribute!" << std::endl;
+
             std::cout << "Frame: "
                       << frame.left << " " << frame.top << " "
                       << frame.width << " " << frame.height << "\n";
