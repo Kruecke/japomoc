@@ -25,8 +25,43 @@
 #include "World.h"
 
 #include <cassert>
+#include <iostream>
 
 #include "Menu.h"
+#include "tinyxml2.h"
+
+World::World() {
+    // Load player character
+    const std::string char_path = "resources/images/tiny-16-basic/boy.xml";
+    tinyxml2::XMLDocument doc;
+    if (doc.LoadFile(char_path.c_str()) != tinyxml2::XML_NO_ERROR)
+        std::cerr << "Could not load " << char_path << "!" << std::endl;
+
+    tinyxml2::XMLElement *root = doc.FirstChildElement("character");
+    assert(root != nullptr);
+    tinyxml2::XMLElement *sheet = root->FirstChildElement("spritesheet");
+    assert(sheet != nullptr);
+    std::cout << "Sheet path: " << sheet->GetText() << "\n";
+
+    for (auto animation_it = root->FirstChildElement("animation");
+        animation_it != nullptr;
+        animation_it = animation_it->NextSiblingElement("animation"))
+    {
+        std::cout << "Animation\n";
+        for (auto frame_it = animation_it->FirstChildElement("frame");
+            frame_it != nullptr;
+            frame_it = frame_it->NextSiblingElement("frame"))
+        {
+            sf::IntRect frame(frame_it->IntAttribute("x"),
+                              frame_it->IntAttribute("y"),
+                              frame_it->IntAttribute("width"),
+                              frame_it->IntAttribute("height"));
+            std::cout << "Frame: "
+                      << frame.left << " " << frame.top << " "
+                      << frame.width << " " << frame.height << "\n";
+        }
+    }
+}
 
 bool World::rendering_fills_scene() const {
     // The world is always screen filling.

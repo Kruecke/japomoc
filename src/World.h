@@ -30,6 +30,8 @@
 
 class World : public GameComponent {
     public:
+        World();
+
         /* ----- GameComponent interface ------------------------------------ */
         virtual bool rendering_fills_scene() const override;
         virtual void render_scene(sf::RenderWindow&) const override;
