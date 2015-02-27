@@ -35,7 +35,7 @@ Game::Game() : m_exit(false) {
     // Load game font
     const std::string font_path = "resources/dejavu-fonts/DejaVuSans.ttf";
     if(!m_font.loadFromFile(font_path))
-        std::cerr << "Could not load " << font_path << "!" << std::endl;
+        std::cerr << "Could not load font \"" << font_path << "\"!" << std::endl;
 }
 
 void Game::push_component(const std::shared_ptr<GameComponent>& component) {

@@ -41,12 +41,12 @@ Menu::Menu() : m_cursor_pos(0) {
     // Load background image
     const std::string bg_path = "resources/images/menu_background.png";
     if (!m_background.loadFromFile(bg_path))
-        std::cerr << "Could not load " + bg_path << "!" << std::endl;
+        std::cerr << "Could not load texture \"" + bg_path << "\"!" << std::endl;
 
     // Load music
     const std::string music_path = "resources/audio/menu.ogg";
     if (!m_music.openFromFile(music_path))
-        std::cerr << "Could not load " + music_path << "!" << std::endl;
+        std::cerr << "Could not load music \"" + music_path << "\"!" << std::endl;
     m_music.setLoop(true);
 }
 
