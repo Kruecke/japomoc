@@ -42,7 +42,7 @@ $ make
 Rules for `make install` are not implemented yet. Just run the game from the current build directory by executing `$ ./japomoc`.
 
 ### Installing on Windows
-These instructions base on Visual Studio 2013, but a free "Express" version should be absolutely sufficient for the build process. You can get a copy of it at http://www.visualstudio.com. Besides that, you need Git to download the recent copy of JaPomoC. You can get this free software at http://git-scm.com/download/win. Last but not least, get a copy of Cmake at http://www.cmake.org/. Install these three tools and move on to the next step.
+These instructions base on Visual Studio 2013 Professional, but the free "Express" version should be absolutely sufficient for the build process. You can get a copy of it at http://www.visualstudio.com. Besides that, you need Git to download the recent copy of JaPomoC. You can get this free software at http://git-scm.com/download/win. Last but not least, get a copy of Cmake at http://www.cmake.org/. Install these three tools and move on to the next step.
 
 #### Installing SFML
 JaPomoC depends on the "Simple and Fast Multimedia Library". Get a copy of the library for your version of Visual Studio at http://www.sfml-dev.org/download/sfml/2.2/. Grab a 32 bit version, otherwise you have to alter this instruction slightly later on. Create a folder `Sources` somewhere and place the extracted folder `SFML-2.2` from the downloaded archive into it.
