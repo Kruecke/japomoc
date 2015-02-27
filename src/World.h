@@ -26,6 +26,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "AnimatedCharacter.h"
 #include "GameComponent.h"
 
 class World : public GameComponent {
@@ -44,4 +45,5 @@ class World : public GameComponent {
         //virtual void resume() override;
 
     private:
+        AnimatedCharacter m_player;
 };

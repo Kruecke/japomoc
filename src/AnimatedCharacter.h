@@ -22,45 +22,23 @@
  * SOFTWARE.
  */
 
-#include "World.h"
+#pragma once
 
-#include <cassert>
-#include <iostream>
 #include <string>
+#include <vector>
 
-#include "Menu.h"
+#include "AnimatedSprite.hpp"
 
-World::World() {
-    // Load player character
-    const std::string char_path = "resources/images/tiny-16-basic/boy.xml";
-    if (!m_player.load_from_xml(char_path))
-        std::cerr << "Could not load player character \""
-                  << char_path << "\"!" << std::endl;
-}
+class AnimatedCharacter {
+    public:
+        enum Direction {UP, DOWN, LEFT, RIGHT};
 
-bool World::rendering_fills_scene() const {
-    // The world is always screen filling.
-    return true;
-}
+        AnimatedCharacter();
+        bool load_from_xml(const std::string &path);
+        const AnimatedSprite& get_animated_sprite() const;
 
-void World::render_scene(sf::RenderWindow &window) const {
-    // TODO: Implement
-    auto &player_sprite = m_player.get_animated_sprite();
-    window.draw(player_sprite);
-}
-
-void World::handle_event(sf::Event &event) {
-    assert(m_game != nullptr);
-
-    // TODO: Implement everthing
-
-    if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Escape)
-            // Open up a menu
-            m_game->push_component(std::make_shared<Menu>());
-    }
-}
-
-void World::handle_other() {
-    // TODO: Implement
-}
+    private:
+        AnimatedSprite m_animated_sprite;
+        sf::Texture    m_sprite_sheet;
+        std::vector<Animation> m_animations;
+};
