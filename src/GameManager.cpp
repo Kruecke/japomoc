@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-#include "Game.h"
+#include "GameManager.h"
 
 #include <algorithm>
 #include <cassert>
@@ -31,21 +31,21 @@
 
 #include "GameComponent.h"
 
-Game::Game() : m_exit(false), m_window(nullptr) {
+GameManager::GameManager() : m_exit(false), m_window(nullptr) {
     // Load game font
     const std::string font_path = "resources/dejavu-fonts/DejaVuSans.ttf";
     if(!m_font.loadFromFile(font_path))
         std::cerr << "Could not load font \"" << font_path << "\"!" << std::endl;
 }
 
-void Game::push_component(const std::shared_ptr<GameComponent>& component) {
+void GameManager::push_component(const std::shared_ptr<GameComponent>& component) {
     // Pause the current foreground component
     if (!m_comp_stack.empty())
         m_comp_stack.back()->pause();
 
     // Push component to stack
     m_comp_stack.emplace_back(component);
-    component->register_game(this);
+    component->register_game_manager(this);
 
     // TODO: Implement LoadingScreen!
     component->setup();
@@ -54,7 +54,7 @@ void Game::push_component(const std::shared_ptr<GameComponent>& component) {
     component->play();
 }
 
-void Game::pop_component() {
+void GameManager::pop_component() {
     // Pause and remove the current component
     m_comp_stack.back()->pause();
     m_comp_stack.pop_back();
@@ -64,8 +64,7 @@ void Game::pop_component() {
     m_comp_stack.back()->play();
 }
 
-std::shared_ptr<GameComponent>
-Game::next_component_to(GameComponent *component) const {
+std::shared_ptr<GameComponent> GameManager::next_component_to(GameComponent *component) const {
     // Search component in stack
     auto it = std::find_if(m_comp_stack.begin(), m_comp_stack.end(),
         [&](const std::shared_ptr<GameComponent> &stack_comp) {
@@ -79,7 +78,7 @@ Game::next_component_to(GameComponent *component) const {
         return *(it - 1);
 }
 
-void Game::dispatch_rendering(sf::RenderWindow &window, const sf::Time &frame_time_delta) const {
+void GameManager::dispatch_rendering(sf::RenderWindow &window, const sf::Time &frame_time_delta) const {
     // Assumptions: The stack is never empty and (at least) the bottom component
     //              is always screen filling!
     assert(!m_comp_stack.empty());
@@ -95,7 +94,7 @@ void Game::dispatch_rendering(sf::RenderWindow &window, const sf::Time &frame_ti
         it->get()->render_scene(window, frame_time_delta);
 }
 
-void Game::dispatch_event(sf::Event &event) {
+void GameManager::dispatch_event(sf::Event &event) {
     assert(!m_comp_stack.empty());
 
     // Catch "close requested" events
@@ -106,30 +105,30 @@ void Game::dispatch_event(sf::Event &event) {
     m_comp_stack.back()->handle_event(event);
 }
 
-void Game::dispatch_other() const {
+void GameManager::dispatch_other() const {
     assert(!m_comp_stack.empty());
 
     m_comp_stack.back()->handle_other();
 }
 
-const sf::Font& Game::get_font() const {
+const sf::Font& GameManager::get_font() const {
     return m_font;
 }
 
-bool Game::get_exit() const {
+bool GameManager::get_exit() const {
     return m_exit;
 }
 
-void Game::set_exit(bool exit) {
+void GameManager::set_exit(bool exit) {
     // TODO: Ask the user?
     m_exit = exit;
 }
 
-const sf::RenderWindow& Game::get_window() const {
+const sf::RenderWindow& GameManager::get_window() const {
     assert(m_window != nullptr);
     return *m_window;
 }
 
-void Game::set_window(const sf::RenderWindow &window) {
+void GameManager::set_window(const sf::RenderWindow &window) {
     m_window = &window;
 }

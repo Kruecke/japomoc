@@ -26,7 +26,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Game.h"
+#include "GameManager.h"
 
 class GameComponent {
 public:
@@ -73,8 +73,8 @@ public:
 
     /*! This function will be called by the game right after the component has
      *  been pushed to the game component stack. */
-    virtual void register_game(Game*);
+    virtual void register_game_manager(GameManager*);
 
 protected:
-    Game *m_game; //!< Reference to the game instance.
+    GameManager *m_game_manager; //!< Reference to the game manager instance.
 };

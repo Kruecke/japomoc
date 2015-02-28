@@ -30,9 +30,9 @@
 
 class GameComponent;
 
-class Game {
+class GameManager {
 public:
-    Game();
+    GameManager();
 
     /*! Pushes a game component which then will be rendered and used to handle
      *  events. */

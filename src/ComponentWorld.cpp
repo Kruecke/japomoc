@@ -22,15 +22,15 @@
  * SOFTWARE.
  */
 
-#include "World.h"
+#include "ComponentWorld.h"
 
 #include <cassert>
 #include <iostream>
 #include <string>
 
-#include "Menu.h"
+#include "ComponentMenu.h"
 
-void World::setup() {
+void ComponentWorld::setup() {
     // Load map. TODO!
     sf::Vector2f player_pos(100, 100); // from map
 
@@ -45,7 +45,7 @@ void World::setup() {
         return; // TODO: Handle errors
     }
 
-    // Place player character. TODO: fis position and scale
+    // Place player character. TODO: fix position and scale
     m_player.get_animated_sprite().setPosition(player_pos);
     m_player.get_animated_sprite().setScale(2, 2);
 
@@ -53,20 +53,20 @@ void World::setup() {
     m_player.set_direction(AnimatedCharacter::Direction::DOWN);
 }
 
-void World::play() {
+void ComponentWorld::play() {
     // TODO: Implement
 }
 
-void World::pause() {
+void ComponentWorld::pause() {
     // TODO: Implement
 }
 
-bool World::rendering_fills_scene() const {
+bool ComponentWorld::rendering_fills_scene() const {
     // The world is always screen filling.
     return true;
 }
 
-void World::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {
+void ComponentWorld::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {
     window.setView(m_view);
 
     // TODO: Implement
@@ -75,18 +75,18 @@ void World::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_de
     window.draw(player_sprite);
 }
 
-void World::handle_event(sf::Event &event) {
-    assert(m_game != nullptr);
+void ComponentWorld::handle_event(sf::Event &event) {
+    assert(m_game_manager != nullptr);
 
     // TODO: Implement everthing
 
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape)
             // Open up a menu
-            m_game->push_component(std::make_shared<Menu>());
+            m_game_manager->push_component(std::make_shared<ComponentMenu>());
     }
 }
 
-void World::handle_other() {
+void ComponentWorld::handle_other() {
     // TODO: Implement
 }

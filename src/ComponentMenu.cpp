@@ -22,19 +22,19 @@
  * SOFTWARE.
  */
 
-#include "Menu.h"
+#include "ComponentMenu.h"
 
 #include <SFML/Graphics.hpp>
 #include <cassert>
 #include <iostream>
 #include <string>
 
-#include "World.h"
+#include "ComponentWorld.h"
 
-Menu::Menu() : m_cursor_pos(0) {}
+ComponentMenu::ComponentMenu() : m_cursor_position(0) {}
 
-void Menu::setup() {
-    assert(m_game != nullptr);
+void ComponentMenu::setup() {
+    assert(m_game_manager != nullptr);
 
     // Load background image
     const std::string bg_path = "resources/images/menu_background.png";
@@ -48,77 +48,77 @@ void Menu::setup() {
     m_music.setLoop(true);
 
     // Check game component below and add menu entries
-    auto next = m_game->next_component_to(this);
+    auto next = m_game_manager->next_component_to(this);
     if (next == nullptr) {
         // This is the base menu. Add a button to start the game.
         m_items.emplace_back("Start game", [this]() {
-            assert(m_game != nullptr);
-            m_game->push_component(std::make_shared<World>());
+            assert(m_game_manager != nullptr);
+            m_game_manager->push_component(std::make_shared<ComponentWorld>());
         });
     }
-    else if (typeid(*next) == typeid(World)) {
+    else if (typeid(*next) == typeid(ComponentWorld)) {
         // This is a "pause" menu. Add a button to get back to the game.
         m_items.emplace_back("Back to game", [this]() {
-            assert(m_game != nullptr);
-            m_game->pop_component();
+            assert(m_game_manager != nullptr);
+            m_game_manager->pop_component();
         });
     }
     // TODO: Add further situations
 
     // There is always a button to quit the game.
     m_items.emplace_back("Quit game", [this]() {
-        assert(m_game != nullptr);
-        m_game->set_exit(true);
+        assert(m_game_manager != nullptr);
+        m_game_manager->set_exit(true);
     });
 }
 
-void Menu::play() {
+void ComponentMenu::play() {
     // Start music
     m_music.play();
 }
 
-void Menu::pause() {
+void ComponentMenu::pause() {
     // Stop music
     m_music.stop();
 }
 
-bool Menu::rendering_fills_scene() const {
+bool ComponentMenu::rendering_fills_scene() const {
     // Menu will cover the whole screen.
     return true;
 }
 
-void Menu::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {
+void ComponentMenu::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {
     // TODO: Make everything beautiful!
     render_background(window);
     render_menu(window);
 }
 
-void Menu::handle_event(sf::Event &event) {
-    assert(m_game != nullptr);
+void ComponentMenu::handle_event(sf::Event &event) {
+    assert(m_game_manager != nullptr);
 
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Up)
-            m_cursor_pos = (m_cursor_pos - 1 + m_items.size()) % m_items.size();
+            m_cursor_position = (m_cursor_position - 1 + m_items.size()) % m_items.size();
         if (event.key.code == sf::Keyboard::Down)
-            m_cursor_pos = (m_cursor_pos + 1) % m_items.size();
+            m_cursor_position = (m_cursor_position + 1) % m_items.size();
 
         if (event.key.code == sf::Keyboard::Return)
             // Execute item function
-            std::get<1>(m_items[m_cursor_pos])();
+            std::get<1>(m_items[m_cursor_position])();
 
         if (event.key.code == sf::Keyboard::Escape) {
             // If this is not a base menu, make 'escape' go back last component.
-            if (m_game->next_component_to(this) != nullptr)
-                m_game->pop_component();
+            if (m_game_manager->next_component_to(this) != nullptr)
+                m_game_manager->pop_component();
         }
     }
 }
 
-void Menu::handle_other() {
+void ComponentMenu::handle_other() {
     // Nothing to do here
 }
 
-void Menu::render_background(sf::RenderWindow &window) const {
+void ComponentMenu::render_background(sf::RenderWindow &window) const {
     const sf::Vector2f view_size = window.getView().getSize();
     const sf::Vector2u tex_size  = m_background.getSize();
 
@@ -127,19 +127,19 @@ void Menu::render_background(sf::RenderWindow &window) const {
     window.draw(background);
 }
 
-void Menu::render_menu(sf::RenderWindow &window) const {
-    assert(m_game != nullptr);
+void ComponentMenu::render_menu(sf::RenderWindow &window) const {
+    assert(m_game_manager != nullptr);
 
     const sf::Vector2f view_size = window.getView().getSize();
 
     for (std::size_t i = 0; i < m_items.size(); ++i) {
         // TODO: Improve that arrow!
         std::string text = std::get<0>(m_items[i]);
-        if (i == m_cursor_pos)
+        if (i == m_cursor_position)
             text = "--> " + text;
 
         // Generate text for item
-        sf::Text item(text, m_game->get_font());
+        sf::Text item(text, m_game_manager->get_font());
         item.setColor(sf::Color::Black);
 
         // Center text horizontally and set vertical offset

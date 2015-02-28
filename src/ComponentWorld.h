@@ -29,7 +29,7 @@
 #include "AnimatedCharacter.h"
 #include "GameComponent.h"
 
-class World : public GameComponent {
+class ComponentWorld : public GameComponent {
 public:
     /* ----- GameComponent interface ---------------------------------------- */
     virtual void setup() override;

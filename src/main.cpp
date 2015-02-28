@@ -26,20 +26,20 @@
 #include <memory>
 #include <thread>
 
-#include "Game.h"
-#include "Menu.h"
+#include "GameManager.h"
+#include "ComponentMenu.h"
 
 /*! Main function of the rendering thread. The actual rendering will be done
  *  within the currently displayed game component. */
-static void render_function(const Game *game, sf::RenderWindow *window) {
+static void render_function(const GameManager *game_manager, sf::RenderWindow *window) {
     sf::Clock frame_timer;
 
     // Handle rendering
-    while (!game->get_exit()) {
+    while (!game_manager->get_exit()) {
         window->clear(sf::Color::Black);
 
-        // Let the game choose which component to render.
-        game->dispatch_rendering(*window, frame_timer.restart());
+        // Let the game manager choose which component to render.
+        game_manager->dispatch_rendering(*window, frame_timer.restart());
         
         window->display();
     }
@@ -48,32 +48,32 @@ static void render_function(const Game *game, sf::RenderWindow *window) {
 /*! Main function. Instantiates the game, the drawing window and the rendering
  *  thread. */
 int main() {
-    // Create game instance
-    Game game;
+    // Create game manager instance
+    GameManager game_manager;
 
     // Create the first game component: The main menu
-    game.push_component(std::make_shared<Menu>());
+    game_manager.push_component(std::make_shared<ComponentMenu>());
 
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "JaPomoC");
     window.setVerticalSyncEnabled(true);
-    game.set_window(window);
+    game_manager.set_window(window);
 
     // Do all the rendering in a thread.
     window.setActive(false);
-    std::thread render_thread(render_function, &game, &window);
+    std::thread render_thread(render_function, &game_manager, &window);
 
     // Handle events
-    while (!game.get_exit()) {
+    while (!game_manager.get_exit()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            // Let the game handle all events.
-            game.dispatch_event(event);
+            // Let the game manager handle all events.
+            game_manager.dispatch_event(event);
         }
 
-        // Give the game the chance to handle other things like querying the
-        // keyboard.
-        game.dispatch_other();
+        // Give the game (components) the chance to handle other things like
+        // querying the keyboard.
+        game_manager.dispatch_other();
     }
 
     // Join render thread

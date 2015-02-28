@@ -33,9 +33,9 @@
 
 #include "GameComponent.h"
 
-class Menu : public GameComponent {
+class ComponentMenu : public GameComponent {
 public:
-    Menu();
+    ComponentMenu();
 
     /* ----- GameComponent interface ---------------------------------------- */
     virtual void setup() override;
@@ -52,7 +52,7 @@ private:
     void render_menu(sf::RenderWindow&) const;
 
     std::vector<std::tuple<std::string, std::function<void(void)>>> m_items;
-    std::size_t m_cursor_pos; //!< Menu item pointed on by the cursor
-    sf::Texture m_background; //!< Background texture
-    sf::Music   m_music;      //!< Menu music
+    std::size_t m_cursor_position; //!< Menu item pointed on by the cursor
+    sf::Texture m_background;      //!< Background texture
+    sf::Music   m_music;           //!< Menu music
 };
