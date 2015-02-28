@@ -31,45 +31,47 @@
 class GameComponent;
 
 class Game {
-    public:
-        Game();
+public:
+    Game();
 
-        /*! Pushes a game component which then will be rendered and used to
-         *  handle events. */
-        void push_component(const std::shared_ptr<GameComponent>&);
+    /*! Pushes a game component which then will be rendered and used to handle
+     *  events. */
+    void push_component(const std::shared_ptr<GameComponent>&);
 
-        /*! Pops the current game component and returns running the next one. */
-        void pop_component();
+    /*! Pops the current game component and returns running the next one. */
+    void pop_component();
 
-        /*! Return the game component on stack right below the given one. A
-         *  nullptr will be returned if there is no match. (Which means that
-         *  either the given component is the base of the stack or the given
-         *  component is not on the stack at all.) */
-        std::shared_ptr<GameComponent> next_component_to(GameComponent*) const;
+    /*! Return the game component on stack right below the given one. A nullptr
+     *  will be returned if there is no match. (Which means that either the
+     *  given component is the base of the stack or the given component is not
+     *  on the stack at all.) */
+    std::shared_ptr<GameComponent> next_component_to(GameComponent*) const;
 
-        /*! Called by the render thread to pass control of what will be drawn to
-         *  the game. The time that has passed since the last frame draw is
-         *  passed as a second parameter. */
-        void dispatch_rendering(sf::RenderWindow&, const sf::Time &frame_time_delta) const;
-        /*! Called by the main thread to handle events. */
-        void dispatch_event(sf::Event&);
-        /*! Called by the main thread to give the game a chance to handle other
-         *  things like querying the keyboard. */
-        void dispatch_other() const;
+    /*! Called by the render thread to pass control of what will be drawn to the
+     *  game. The time that has passed since the last frame draw is passed as
+     *  the second parameter. */
+    void dispatch_rendering(sf::RenderWindow&, const sf::Time &frame_time_delta) const;
 
-        /*! Get the common game font. */
-        const sf::Font& font() const;
+    /*! Called by the main thread to handle events. */
+    void dispatch_event(sf::Event&);
 
-        /*! Returns true if the game is about to end. This might be due to a
-        *  user input. */
-        bool exit() const;
+    /*! Called by the main thread to give the game a chance to handle other
+     *  things like querying the keyboard. */
+    void dispatch_other() const;
 
-        /*! Request game exit by passing 'true' or cancel a request by passing
-         *  'false'. */
-        void exit(bool);
+    /*! Get the common game font. */
+    const sf::Font& font() const;
 
-    private:
-        std::vector<std::shared_ptr<GameComponent>> m_comp_stack;
-        sf::Font m_font; //!< Common game font
-        bool     m_exit; //!< Whether the game is about to quit or not
+    /*! Returns true if the game is about to end. This might be due to a user
+     *  input. */
+    bool exit() const;
+
+    /*! Request game exit by passing 'true' or cancel a request by passing
+     *  'false'. */
+    void exit(bool);
+
+private:
+    std::vector<std::shared_ptr<GameComponent>> m_comp_stack;
+    sf::Font m_font; //!< Common game font
+    bool     m_exit; //!< Whether the game is about to quit or not
 };

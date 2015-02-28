@@ -32,16 +32,16 @@
 // TODO: Commentary!
 
 class AnimatedCharacter {
-    public:
-        enum Direction {UP, DOWN, LEFT, RIGHT};
+public:
+    enum Direction {UP, DOWN, LEFT, RIGHT};
 
-        AnimatedCharacter();
-        bool load_from_xml(const std::string &path);
-        AnimatedSprite& get_animated_sprite();
-        void set_direction(Direction);
+    AnimatedCharacter();
+    bool load_from_xml(const std::string &path);
+    AnimatedSprite& get_animated_sprite();
+    void set_direction(Direction);
 
-    private:
-        AnimatedSprite m_animated_sprite;
-        sf::Texture    m_sprite_sheet;
-        std::vector<Animation> m_animations;
+private:
+    AnimatedSprite m_animated_sprite;
+    sf::Texture    m_sprite_sheet;
+    std::vector<Animation> m_animations;
 };
