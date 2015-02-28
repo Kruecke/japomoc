@@ -88,6 +88,9 @@ bool ComponentMenu::rendering_fills_scene() const {
 }
 
 void ComponentMenu::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {
+    // Reset camera view
+    window.setView(window.getDefaultView());
+
     // TODO: Make everything beautiful!
     render_background(window);
     render_menu(window);
