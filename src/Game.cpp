@@ -100,7 +100,7 @@ void Game::dispatch_event(sf::Event &event) {
 
     // Catch "close requested" events
     if (event.type == sf::Event::Closed)
-        exit(true);
+        set_exit(true);
 
     // Let all other events be handled by the current game component.
     m_comp_stack.back()->handle_event(event);
