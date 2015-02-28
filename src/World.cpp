@@ -30,7 +30,7 @@
 
 #include "Menu.h"
 
-World::World() {
+void World::setup() {
     // Load player character
     const std::string char_path = "resources/images/tiny-16-basic/boy.xml";
     if (!m_player.load_from_xml(char_path)) {
@@ -40,6 +40,14 @@ World::World() {
 
     // Player looks down by default
     m_player.set_direction(AnimatedCharacter::Direction::DOWN);
+}
+
+void World::play() {
+    // TODO: Implement
+}
+
+void World::pause() {
+    // TODO: Implement
 }
 
 bool World::rendering_fills_scene() const {

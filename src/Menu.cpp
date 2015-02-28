@@ -31,12 +31,10 @@
 
 #include "World.h"
 
-Menu::Menu() : m_cursor_pos(0) {
-    // Add basic menu entries
-    m_items.emplace_back("Quit game", [this]() {
-        assert(m_game != nullptr);
-        m_game->exit(true);
-    });
+Menu::Menu() : m_cursor_pos(0) {}
+
+void Menu::setup() {
+    assert(m_game != nullptr);
 
     // Load background image
     const std::string bg_path = "resources/images/menu_background.png";
@@ -48,6 +46,40 @@ Menu::Menu() : m_cursor_pos(0) {
     if (!m_music.openFromFile(music_path))
         std::cerr << "Could not load music \"" + music_path << "\"!" << std::endl;
     m_music.setLoop(true);
+
+    // Check game component below and add menu entries
+    auto next = m_game->next_component_to(this);
+    if (next == nullptr) {
+        // This is the base menu. Add a button to start the game.
+        m_items.emplace_back("Start game", [this]() {
+            assert(m_game != nullptr);
+            m_game->push_component(std::make_shared<World>());
+        });
+    }
+    else if (typeid(*next) == typeid(World)) {
+        // This is a "pause" menu. Add a button to get back to the game.
+        m_items.emplace_back("Back to game", [this]() {
+            assert(m_game != nullptr);
+            m_game->pop_component();
+        });
+    }
+    // TODO: Add further situations
+
+    // There is always a button to quit the game.
+    m_items.emplace_back("Quit game", [this]() {
+        assert(m_game != nullptr);
+        m_game->exit(true);
+    });
+}
+
+void Menu::play() {
+    // Start music
+    m_music.play();
+}
+
+void Menu::pause() {
+    // Stop music
+    m_music.stop();
 }
 
 bool Menu::rendering_fills_scene() const {
@@ -62,16 +94,19 @@ void Menu::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_del
 }
 
 void Menu::handle_event(sf::Event &event) {
+    assert(m_game != nullptr);
+
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Up)
             m_cursor_pos = (m_cursor_pos - 1 + m_items.size()) % m_items.size();
         if (event.key.code == sf::Keyboard::Down)
             m_cursor_pos = (m_cursor_pos + 1) % m_items.size();
+
         if (event.key.code == sf::Keyboard::Return)
             // Execute item function
             std::get<1>(m_items[m_cursor_pos])();
+
         if (event.key.code == sf::Keyboard::Escape) {
-            assert(m_game != nullptr);
             // If this is not a base menu, make 'escape' go back last component.
             if (m_game->next_component_to(this) != nullptr)
                 m_game->pop_component();
@@ -81,44 +116,6 @@ void Menu::handle_event(sf::Event &event) {
 
 void Menu::handle_other() {
     // Nothing to do here
-}
-
-void Menu::register_game(Game *game) {
-    // Call base class implementation. See GameComponent header commentary.
-    GameComponent::register_game(game);
-
-    // Check game component below and add menu entries
-    auto next = game->next_component_to(this);
-    if (next == nullptr) {
-        // This is the base menu. Add a button to start the game.
-        m_items.emplace(m_items.begin(), "Start game", [this]() {
-            assert(m_game != nullptr);
-            m_game->push_component(std::make_shared<World>());
-        });
-    } else if (typeid(*next) == typeid(World)) {
-        // This is a "pause" menu. Add a button to get back to the game.
-        m_items.emplace(m_items.begin(), "Back to game", [this]() {
-            assert(m_game != nullptr);
-            m_game->pop_component();
-        });
-    }
-    // TODO: Add further situations
-}
-
-void Menu::pause() {
-    // Call base class implementation. See GameComponent header commentary.
-    GameComponent::pause();
-
-    // Stop music
-    m_music.stop();
-}
-
-void Menu::resume() {
-    // Call base class implementation. See GameComponent header commentary.
-    GameComponent::resume();
-
-    // Start music
-    m_music.play();
 }
 
 void Menu::render_background(sf::RenderWindow &window) const {

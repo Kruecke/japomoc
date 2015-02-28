@@ -29,49 +29,52 @@
 #include "Game.h"
 
 class GameComponent {
-    public:
-        GameComponent();
-        virtual ~GameComponent();
+public:
+    GameComponent();
+    virtual ~GameComponent();
 
-        /* ----- GameComponent interface. Overload these functions. --------- */
+    /* ----- GameComponent interface. Overload these functions. ------------- */
 
-        /*! Returns true if this component fill the whole view. If it returns
-         *  false, the underlying component will be drawn as well. */
-        virtual bool rendering_fills_scene() const = 0;
+    /*! Setup will be called once by the game when the component is about to go
+     *  to the foreground for the first time. Do all your loading and
+     *  preparations here (and not in the constructor).
+     *  A instance of LoadingScreen will cover the screen while this function
+     *  is being processed. */
+    virtual void setup() = 0;
 
-        /*! Will be called by the game to render the view. Implement your
-         *  drawing here. The time that has passed since the last frame draw is
-         *  passed as a second parameter. This can be useful for animations. */
-        virtual void render_scene(sf::RenderWindow&, const sf::Time &frame_time_delta) = 0;
+    /*! Play will be called by the game when the component goes to the
+    *  foreground. The component is (again) at the top of the stack. */
+    virtual void play() = 0;
 
-        /*! Will be called by the game to handle event. Implement your event
-         *  handling here. */
-        virtual void handle_event(sf::Event&) = 0;
+    /*! Pause will be called by the game when the component goes to the
+     *  background. The component is (still) at the top of the stack. */
+    virtual void pause() = 0;
 
-        /*! Will be called by the game to handle other things. You can use this
-         *  function to implement other handling like querying the keyboard. */
-        virtual void handle_other() = 0;
+    /*! Returns true if this component fills the whole view. If it returns
+     *  false, the underlying component will be drawn as well. */
+    virtual bool rendering_fills_scene() const = 0;
 
-        /* ----- End of GameComponent interface. ---------------------------- */
+    /*! Will be called by the game to render the scene. Implement your drawing
+     *  here. The time that has passed since the last frame draw is passed as
+     *  the second parameter. This can be useful to progress animations. */
+    virtual void render_scene(sf::RenderWindow&, const sf::Time &frame_time_delta) = 0;
 
-        /* The following functions can be overriden as well, if you need a hook
-         * to the moment when your component becomes registered, paused or
-         * resumed. If you do override them, make sure to call their base
-         * implementation as well to not break other functionality. */
+    /*! Will be called by the game to handle event. Implement your event
+     *  handling here. */
+    virtual void handle_event(sf::Event&) = 0;
 
-        /*! This function will be called by the game right after the component
-         *  has been pushed to the game component stack. */
-        virtual void register_game(Game*);
-        /*! Pause will be called by the game when the component goes to the
-         *  background. The component is (still) at the top of the stack. */
-        virtual void pause();
-        /*! Resume will be called by the game when the component goes to the
-         *  foreground. The component is (again) at the top of the stack. */
-        virtual void resume();
+    /*! Will be called by the game to handle other things. You can use this
+     *  function to implement other handling like querying the keyboard. */
+    virtual void handle_other() = 0;
 
-    protected:
-        Game *m_game;  //!< Reference to the game instance.
-        bool m_active; /*!< Tells whether this component is running or not.
-                        *   Every component starts inactive and is being
-                        *   activated by the game on demand. */
+    /* ----- End of GameComponent interface. -------------------------------- */
+
+    /* There should be no need to override the following functions. */
+
+    /*! This function will be called by the game right after the component has
+     *  been pushed to the game component stack. */
+    virtual void register_game(Game*);
+
+protected:
+    Game *m_game; //!< Reference to the game instance.
 };

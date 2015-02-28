@@ -39,17 +39,19 @@ Game::Game() : m_exit(false) {
 }
 
 void Game::push_component(const std::shared_ptr<GameComponent>& component) {
-    // Pause the current (foreground) component
+    // Pause the current foreground component
     if (!m_comp_stack.empty())
         m_comp_stack.back()->pause();
 
-    // Push component to stack and make it running
+    // Push component to stack
     m_comp_stack.emplace_back(component);
     component->register_game(this);
-    // TODO: Maybe do a "fade animation" or something here? The call to
-    //       'register_game' could actually take some time, depending on what
-    //       the implementer has choosed to do there.
-    component->resume();
+
+    // TODO: Implement LoadingScreen!
+    component->setup();
+
+    // Bring the component to the foreground
+    component->play();
 }
 
 void Game::pop_component() {
@@ -59,7 +61,7 @@ void Game::pop_component() {
 
     // Run the next component
     assert(m_comp_stack.size() > 0);
-    m_comp_stack.back()->resume();
+    m_comp_stack.back()->play();
 }
 
 std::shared_ptr<GameComponent>
@@ -78,9 +80,19 @@ Game::next_component_to(GameComponent *component) const {
 }
 
 void Game::dispatch_rendering(sf::RenderWindow &window, const sf::Time &frame_time_delta) const {
+    // Assumptions: The stack is never empty and (at least) the bottom component
+    //              is always screen filling!
     assert(!m_comp_stack.empty());
+    assert(m_comp_stack.begin()->get()->rendering_fills_scene());
 
-    m_comp_stack.back()->render_scene(window, frame_time_delta);
+    // Find topmost component that is screen filling.
+    auto it = m_comp_stack.end() - 1;
+    while (!it->get()->rendering_fills_scene())
+        --it;
+
+    // Render all components from the topmost screen filling to the top.
+    for (; it != m_comp_stack.end(); ++it)
+        it->get()->render_scene(window, frame_time_delta);
 }
 
 void Game::dispatch_event(sf::Event &event) {
@@ -88,7 +100,7 @@ void Game::dispatch_event(sf::Event &event) {
 
     // Catch "close requested" events
     if (event.type == sf::Event::Closed)
-        m_exit = true;
+        exit(true);
 
     // Let all other events be handled by the current game component.
     m_comp_stack.back()->handle_event(event);

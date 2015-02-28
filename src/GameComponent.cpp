@@ -24,18 +24,11 @@
 
 #include "GameComponent.h"
 
-GameComponent::GameComponent() : m_active(false) {}
+GameComponent::GameComponent() : m_game(nullptr) {}
 
 GameComponent::~GameComponent() {}
 
 void GameComponent::register_game(Game *game) {
+    // Save a reference to the game instance
     m_game = game;
-}
-
-void GameComponent::pause() {
-    m_active = false;
-}
-
-void GameComponent::resume() {
-    m_active = true;
 }

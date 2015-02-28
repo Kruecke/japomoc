@@ -30,20 +30,17 @@
 #include "GameComponent.h"
 
 class World : public GameComponent {
-    public:
-        World();
+public:
+    /* ----- GameComponent interface ---------------------------------------- */
+    virtual void setup() override;
+    virtual void play() override;
+    virtual void pause() override;
+    virtual bool rendering_fills_scene() const override;
+    virtual void render_scene(sf::RenderWindow&, const sf::Time &frame_time_delta) override;
+    virtual void handle_event(sf::Event&) override;
+    virtual void handle_other() override;
+    /* ----- End of GameComponent interface --------------------------------- */
 
-        /* ----- GameComponent interface ------------------------------------ */
-        virtual bool rendering_fills_scene() const override;
-        virtual void render_scene(sf::RenderWindow&, const sf::Time &frame_time_delta) override;
-        virtual void handle_event(sf::Event&) override;
-        virtual void handle_other() override;
-        /* ----- End of GameComponent interface ----------------------------- */
-
-        //virtual void register_game(Game*) override;
-        //virtual void pause() override;
-        //virtual void resume() override;
-
-    private:
-        AnimatedCharacter m_player;
+private:
+    AnimatedCharacter m_player;
 };
