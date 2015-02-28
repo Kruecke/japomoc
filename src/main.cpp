@@ -35,7 +35,7 @@ static void render_function(const Game *game, sf::RenderWindow *window) {
     sf::Clock frame_timer;
 
     // Handle rendering
-    while (!game->exit()) {
+    while (!game->get_exit()) {
         window->clear(sf::Color::Black);
 
         // Let the game choose which component to render.
@@ -57,13 +57,14 @@ int main() {
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "JaPomoC");
     window.setVerticalSyncEnabled(true);
+    game.set_window(window);
 
     // Do all the rendering in a thread.
     window.setActive(false);
     std::thread render_thread(render_function, &game, &window);
 
     // Handle events
-    while (!game.exit()) {
+    while (!game.get_exit()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             // Let the game handle all events.

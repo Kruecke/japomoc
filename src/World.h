@@ -42,5 +42,6 @@ public:
     /* ----- End of GameComponent interface --------------------------------- */
 
 private:
+    sf::View          m_view;
     AnimatedCharacter m_player;
 };

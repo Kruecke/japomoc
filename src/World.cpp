@@ -31,12 +31,23 @@
 #include "Menu.h"
 
 void World::setup() {
+    // Load map. TODO!
+    sf::Vector2f player_pos(100, 100); // from map
+
+    // Generate a new (most likely smaller) view
+    sf::Vector2f view_size(800, 600);
+    m_view = sf::View(player_pos, view_size);
+
     // Load player character
     const std::string char_path = "resources/images/tiny-16-basic/boy.xml";
     if (!m_player.load_from_xml(char_path)) {
         std::cerr << "Could not load player character \"" << char_path << "\"!" << std::endl;
         return; // TODO: Handle errors
     }
+
+    // Place player character. TODO: fis position and scale
+    m_player.get_animated_sprite().setPosition(player_pos);
+    m_player.get_animated_sprite().setScale(2, 2);
 
     // Player looks down by default
     m_player.set_direction(AnimatedCharacter::Direction::DOWN);
@@ -56,6 +67,8 @@ bool World::rendering_fills_scene() const {
 }
 
 void World::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {
+    window.setView(m_view);
+
     // TODO: Implement
     AnimatedSprite &player_sprite = m_player.get_animated_sprite();
     player_sprite.update(frame_time_delta);

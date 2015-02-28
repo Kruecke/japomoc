@@ -68,7 +68,7 @@ void Menu::setup() {
     // There is always a button to quit the game.
     m_items.emplace_back("Quit game", [this]() {
         assert(m_game != nullptr);
-        m_game->exit(true);
+        m_game->set_exit(true);
     });
 }
 
@@ -139,7 +139,7 @@ void Menu::render_menu(sf::RenderWindow &window) const {
             text = "--> " + text;
 
         // Generate text for item
-        sf::Text item(text, m_game->font());
+        sf::Text item(text, m_game->get_font());
         item.setColor(sf::Color::Black);
 
         // Center text horizontally and set vertical offset

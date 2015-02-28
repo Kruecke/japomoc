@@ -31,7 +31,7 @@
 
 #include "GameComponent.h"
 
-Game::Game() : m_exit(false) {
+Game::Game() : m_exit(false), m_window(nullptr) {
     // Load game font
     const std::string font_path = "resources/dejavu-fonts/DejaVuSans.ttf";
     if(!m_font.loadFromFile(font_path))
@@ -112,15 +112,24 @@ void Game::dispatch_other() const {
     m_comp_stack.back()->handle_other();
 }
 
-const sf::Font& Game::font() const {
+const sf::Font& Game::get_font() const {
     return m_font;
 }
 
-bool Game::exit() const {
+bool Game::get_exit() const {
     return m_exit;
 }
 
-void Game::exit(bool exit) {
+void Game::set_exit(bool exit) {
     // TODO: Ask the user?
     m_exit = exit;
+}
+
+const sf::RenderWindow& Game::get_window() const {
+    assert(m_window != nullptr);
+    return *m_window;
+}
+
+void Game::set_window(const sf::RenderWindow &window) {
+    m_window = &window;
 }

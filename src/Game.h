@@ -60,18 +60,25 @@ public:
     void dispatch_other() const;
 
     /*! Get the common game font. */
-    const sf::Font& font() const;
+    const sf::Font& get_font() const;
 
     /*! Returns true if the game is about to end. This might be due to a user
      *  input. */
-    bool exit() const;
+    bool get_exit() const;
 
     /*! Request game exit by passing 'true' or cancel a request by passing
      *  'false'. */
-    void exit(bool);
+    void set_exit(bool);
+
+    /*! Get the render window. */
+    const sf::RenderWindow& get_window() const;
+
+    /*! Set the render window. */
+    void set_window(const sf::RenderWindow&);
 
 private:
     std::vector<std::shared_ptr<GameComponent>> m_comp_stack;
     sf::Font m_font; //!< Common game font
     bool     m_exit; //!< Whether the game is about to quit or not
+    const sf::RenderWindow *m_window;
 };
