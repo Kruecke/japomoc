@@ -53,7 +53,7 @@ void ComponentMenu::setup() {
         // This is the base menu. Add a button to start the game.
         m_items.emplace_back("Start game", [this]() {
             assert(m_game_manager != nullptr);
-            m_game_manager->push_component(std::make_shared<ComponentWorld>());
+            m_game_manager->push_component(std::make_unique<ComponentWorld>());
         });
     }
     else if (typeid(*next) == typeid(ComponentWorld)) {

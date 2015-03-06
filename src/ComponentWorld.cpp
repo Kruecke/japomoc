@@ -83,7 +83,7 @@ void ComponentWorld::handle_event(sf::Event &event) {
     if (event.type == sf::Event::KeyPressed) {
         if (event.key.code == sf::Keyboard::Escape)
             // Open up a menu
-            m_game_manager->push_component(std::make_shared<ComponentMenu>());
+            m_game_manager->push_component(std::make_unique<ComponentMenu>());
     }
 }
 
