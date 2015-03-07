@@ -33,7 +33,7 @@
 
 ComponentMenu::ComponentMenu() : m_cursor_position(0) {}
 
-void ComponentMenu::setup() {
+void ComponentMenu::setup(const GameComponent* next_to_this) {
     assert(m_game_manager != nullptr);
 
     // Load background image
@@ -48,15 +48,14 @@ void ComponentMenu::setup() {
     m_music.setLoop(true);
 
     // Check game component below and add menu entries
-    auto next = m_game_manager->next_component_to(this);
-    if (next == nullptr) {
+    if (next_to_this == nullptr) {
         // This is the base menu. Add a button to start the game.
         m_items.emplace_back("Start game", [this]() {
             assert(m_game_manager != nullptr);
             m_game_manager->push_component(std::make_shared<ComponentWorld>());
         });
     }
-    else if (typeid(*next) == typeid(ComponentWorld)) {
+    else if (typeid(*next_to_this) == typeid(ComponentWorld)) {
         // This is a "pause" menu. Add a button to get back to the game.
         m_items.emplace_back("Back to game", [this]() {
             assert(m_game_manager != nullptr);
@@ -85,6 +84,11 @@ void ComponentMenu::pause() {
 bool ComponentMenu::rendering_fills_scene() const {
     // Menu will cover the whole screen.
     return true;
+}
+
+std::shared_ptr<GameComponent> ComponentMenu::get_loading_screen() const {
+    // No loading screen needed.
+    return nullptr;
 }
 
 void ComponentMenu::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {

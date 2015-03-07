@@ -39,32 +39,90 @@ GameManager::GameManager() : m_exit(false), m_window(nullptr) {
 }
 
 void GameManager::push_component(const std::shared_ptr<GameComponent>& component) {
-    // Pause the current foreground component
-    if (!m_comp_stack.empty())
-        m_comp_stack.back()->pause();
+    // Basic stack change concept:
+    //     1) Pause old foreground component
+    //     2) Update stack
+    //     3) Make the new foreground component play
+    // This means that a component might be drawn after the call to pause or
+    // before the call to play! So it is essential that every component is ready
+    // to be drawn after its setup implementation has been called.
 
-    // Push component to stack
-    m_comp_stack.emplace_back(component);
+    std::shared_ptr<GameComponent> below_component; // next on the stack
+    {
+        std::lock_guard<std::mutex> lock(m_comp_stack_mutex); // TODO: shared lock
+        below_component = !m_comp_stack.empty() ? m_comp_stack.back() : nullptr;
+    }
+
+    // Do we have a loading screen for switching to component?
+    auto loading_screen = component->get_loading_screen();
+    if (loading_screen != nullptr) {
+        // Set up loading screen. (This is better be done fast.)
+        loading_screen->register_game_manager(this);
+        loading_screen->setup(component.get());
+
+        // Pause the current foreground component.
+        if (below_component != nullptr)
+            below_component->pause();
+
+        // Push loading screen to the stack and make it play.
+        {
+            std::lock_guard<std::mutex> lock(m_comp_stack_mutex); // lock for change
+            m_comp_stack.emplace_back(loading_screen);
+        }
+        loading_screen->play();
+    }
+
+    // Prepare component. The loading screen is displayed while this is running.
     component->register_game_manager(this);
+    component->setup(below_component.get());
 
-    // TODO: Implement LoadingScreen!
-    component->setup();
+    // Done setting up. Replace loading screen with actual component to draw.
+    {
+        // Pause foreground component.
+        if (loading_screen != nullptr)
+            loading_screen->pause();
+        else if (below_component != nullptr)
+            below_component->pause();
 
-    // Bring the component to the foreground
-    component->play();
+        // Push component to the stack and make it play.
+        {
+            std::lock_guard<std::mutex> lock(m_comp_stack_mutex); // lock for change
+            if (loading_screen != nullptr)
+                m_comp_stack.pop_back();
+            m_comp_stack.emplace_back(component);
+        }
+        component->play();
+    }
 }
 
 void GameManager::pop_component() {
-    // Pause and remove the current component
-    m_comp_stack.back()->pause();
-    m_comp_stack.pop_back();
+    std::shared_ptr<GameComponent> current, next;
 
-    // Run the next component
-    assert(m_comp_stack.size() > 0);
-    m_comp_stack.back()->play();
+    // Get the current and the next component to play.
+    {
+        std::lock_guard<std::mutex> lock(m_comp_stack_mutex); // TODO: shared lock
+        assert(m_comp_stack.size() >= 2); // We'll never pop the last element!
+        auto last = m_comp_stack.rbegin();
+        current = *last;
+        next = *++last;
+    }
+
+    // Pause the current foreground component.
+    current->pause();
+
+    // Lock stack and pop back.
+    {
+        std::lock_guard<std::mutex> lock(m_comp_stack_mutex); // lock for change
+        m_comp_stack.pop_back();
+    }
+
+    // Play the next component.
+    next->play();
 }
 
 std::shared_ptr<GameComponent> GameManager::next_component_to(GameComponent *component) const {
+    std::lock_guard<std::mutex> lock(m_comp_stack_mutex); // TODO: shared lock
+
     // Search component in stack
     auto it = std::find_if(m_comp_stack.begin(), m_comp_stack.end(),
         [&](const std::shared_ptr<GameComponent> &stack_comp) {
@@ -79,36 +137,59 @@ std::shared_ptr<GameComponent> GameManager::next_component_to(GameComponent *com
 }
 
 void GameManager::dispatch_rendering(sf::RenderWindow &window, const sf::Time &frame_time_delta) const {
-    // Assumptions: The stack is never empty and (at least) the bottom component
-    //              is always screen filling!
-    assert(!m_comp_stack.empty());
-    assert(m_comp_stack.begin()->get()->rendering_fills_scene());
+    // Take part in ownership of components to draw.
+    std::vector<std::shared_ptr<GameComponent>> components;
 
-    // Find topmost component that is screen filling.
-    auto it = m_comp_stack.end() - 1;
-    while (!it->get()->rendering_fills_scene())
-        --it;
+    // Take part in the ownership of all components to render.
+    {
+        std::lock_guard<std::mutex> lock(m_comp_stack_mutex); // TODO: shared lock
+        // Assumptions: The stack is never empty and (at least) the bottom
+        //              component is always screen filling!
+        assert(!m_comp_stack.empty());
+        assert(m_comp_stack.begin()->get()->rendering_fills_scene());
+
+        // Find topmost component that is screen filling.
+        auto it = m_comp_stack.end() - 1;
+        while (!it->get()->rendering_fills_scene())
+            --it;
+
+        // Take part in ownership to prevent concurrent deleting.
+        std::copy(it, m_comp_stack.end(), std::back_inserter(components));
+    }
 
     // Render all components from the topmost screen filling to the top.
-    for (; it != m_comp_stack.end(); ++it)
-        it->get()->render_scene(window, frame_time_delta);
+    for (auto &comp : components)
+        comp->render_scene(window, frame_time_delta);
 }
 
 void GameManager::dispatch_event(sf::Event &event) {
-    assert(!m_comp_stack.empty());
-
     // Catch "close requested" events
     if (event.type == sf::Event::Closed)
         set_exit(true);
 
+    // Take part in component ownership.
+    std::shared_ptr<GameComponent> component;
+    {
+        std::lock_guard<std::mutex> lock(m_comp_stack_mutex); // TODO: shared lock
+        assert(!m_comp_stack.empty());
+        component = m_comp_stack.back();
+    }
+
     // Let all other events be handled by the current game component.
-    m_comp_stack.back()->handle_event(event);
+    component->handle_event(event);
 }
 
 void GameManager::dispatch_other() const {
-    assert(!m_comp_stack.empty());
+    // Take part in component ownership.
+    std::shared_ptr<GameComponent> component;
+    {
+        std::lock_guard<std::mutex> lock(m_comp_stack_mutex); // TODO: shared lock
+        assert(!m_comp_stack.empty());
+        component = m_comp_stack.back();
+    }
 
-    m_comp_stack.back()->handle_other();
+    // Let the component handle other things.
+    component->handle_other();
 }
 
 const sf::Font& GameManager::get_font() const {

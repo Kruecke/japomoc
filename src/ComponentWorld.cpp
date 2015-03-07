@@ -30,7 +30,7 @@
 
 #include "ComponentMenu.h"
 
-void ComponentWorld::setup() {
+void ComponentWorld::setup(const GameComponent* next_to_this) {
     // Load map. TODO!
     sf::Vector2f player_pos(100, 100); // from map
 
@@ -64,6 +64,11 @@ void ComponentWorld::pause() {
 bool ComponentWorld::rendering_fills_scene() const {
     // The world is always screen filling.
     return true;
+}
+
+std::shared_ptr<GameComponent> ComponentWorld::get_loading_screen() const {
+    // TODO: Return loading screen.
+    return nullptr;
 }
 
 void ComponentWorld::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {

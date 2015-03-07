@@ -53,6 +53,7 @@ int main() {
 
     // Create the first game component: The main menu
     game_manager.push_component(std::make_shared<ComponentMenu>());
+    // Assumption: From now on, the stack will never be empty.
 
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "JaPomoC");

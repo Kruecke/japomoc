@@ -38,10 +38,11 @@ public:
     ComponentMenu();
 
     /* ----- GameComponent interface ---------------------------------------- */
-    virtual void setup() override;
+    virtual void setup(const GameComponent* next_to_this) override;
     virtual void play() override;
     virtual void pause() override;
     virtual bool rendering_fills_scene() const override;
+    virtual std::shared_ptr<GameComponent> get_loading_screen() const override;
     virtual void render_scene(sf::RenderWindow&, const sf::Time &frame_time_delta) override;
     virtual void handle_event(sf::Event&) override;
     virtual void handle_other() override;

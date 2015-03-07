@@ -26,10 +26,13 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <mutex>
 #include <vector>
 
 class GameComponent;
 
+/*! The GameManager is basicly a container that holds ... // TODO: write!
+ */
 class GameManager {
 public:
     GameManager();
@@ -78,7 +81,8 @@ public:
 
 private:
     std::vector<std::shared_ptr<GameComponent>> m_comp_stack;
+    mutable std::mutex m_comp_stack_mutex; //!< For concurrent vector access
     sf::Font m_font; //!< Common game font
     bool     m_exit; //!< Whether the game is about to quit or not
-    const sf::RenderWindow *m_window;
+    const sf::RenderWindow *m_window; //!< Reference to the game render window
 };
