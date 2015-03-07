@@ -35,9 +35,8 @@ public:
     GameManager();
 
     /*! Pushes a game component which then will be rendered and used to handle
-     *  events. (Ownership is handled to the GameManager by passing the
-     *  unique_ptr.) */
-    void push_component(std::unique_ptr<GameComponent>);
+     *  events. */
+    void push_component(const std::shared_ptr<GameComponent>&);
 
     /*! Pops the current game component and returns running the next one. */
     void pop_component();
@@ -46,7 +45,7 @@ public:
      *  will be returned if there is no match. (Which means that either the
      *  given component is the base of the stack or the given component is not
      *  on the stack at all.) */
-    const GameComponent* next_component_to(const GameComponent*) const;
+    std::shared_ptr<GameComponent> next_component_to(GameComponent*) const;
 
     /*! Called by the render thread to pass control of what will be drawn to the
      *  game. The time that has passed since the last frame draw is passed as
@@ -78,7 +77,7 @@ public:
     void set_window(const sf::RenderWindow&);
 
 private:
-    std::vector<std::unique_ptr<GameComponent>> m_comp_stack;
+    std::vector<std::shared_ptr<GameComponent>> m_comp_stack;
     sf::Font m_font; //!< Common game font
     bool     m_exit; //!< Whether the game is about to quit or not
     const sf::RenderWindow *m_window;

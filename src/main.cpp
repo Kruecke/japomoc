@@ -52,7 +52,7 @@ int main() {
     GameManager game_manager;
 
     // Create the first game component: The main menu
-    game_manager.push_component(std::make_unique<ComponentMenu>());
+    game_manager.push_component(std::make_shared<ComponentMenu>());
 
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "JaPomoC");

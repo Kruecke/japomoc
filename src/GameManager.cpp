@@ -38,23 +38,20 @@ GameManager::GameManager() : m_exit(false), m_window(nullptr) {
         std::cerr << "Could not load font \"" << font_path << "\"!" << std::endl;
 }
 
-void GameManager::push_component(std::unique_ptr<GameComponent> component) {
+void GameManager::push_component(const std::shared_ptr<GameComponent>& component) {
     // Pause the current foreground component
     if (!m_comp_stack.empty())
         m_comp_stack.back()->pause();
 
     // Push component to stack
-    m_comp_stack.emplace_back(std::move(component));
-    assert(component == nullptr); // moved
-
-    // Set back reference
-    m_comp_stack.back()->register_game_manager(this);
+    m_comp_stack.emplace_back(component);
+    component->register_game_manager(this);
 
     // TODO: Implement LoadingScreen!
-    m_comp_stack.back()->setup();
+    component->setup();
 
     // Bring the component to the foreground
-    m_comp_stack.back()->play();
+    component->play();
 }
 
 void GameManager::pop_component() {
@@ -67,10 +64,10 @@ void GameManager::pop_component() {
     m_comp_stack.back()->play();
 }
 
-const GameComponent* GameManager::next_component_to(const GameComponent *component) const {
+std::shared_ptr<GameComponent> GameManager::next_component_to(GameComponent *component) const {
     // Search component in stack
     auto it = std::find_if(m_comp_stack.begin(), m_comp_stack.end(),
-        [&](const std::unique_ptr<GameComponent> &stack_comp) {
+        [&](const std::shared_ptr<GameComponent> &stack_comp) {
             return stack_comp.get() == component;
         });
 
@@ -78,7 +75,7 @@ const GameComponent* GameManager::next_component_to(const GameComponent *compone
         it == m_comp_stack.begin()) // Component is the last in stack
         return nullptr;
     else
-        return (it - 1)->get();
+        return *(it - 1);
 }
 
 void GameManager::dispatch_rendering(sf::RenderWindow &window, const sf::Time &frame_time_delta) const {
