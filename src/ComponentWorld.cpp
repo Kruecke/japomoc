@@ -32,11 +32,12 @@
 
 void ComponentWorld::setup(const GameComponent* next_to_this) {
     // Load map. TODO!
-    sf::Vector2f player_pos(100, 100); // from map
-
-    // Generate a new (most likely smaller) view
-    sf::Vector2f view_size(800, 600);
-    m_view = sf::View(player_pos, view_size);
+    const std::string map_path = "resources/levels/test_map.xml";
+    if (!m_tilemap.load_from_xml(map_path)) {
+        std::cerr << "Could not load tile map \"" << map_path << "\"!" << std::endl;
+        return; // TODO: Handle errors
+    }
+    sf::Vector2f player_pos(100, 100); // TODO: load from map
 
     // Load player character
     const std::string char_path = "resources/images/tiny-16-basic/boy.xml";
@@ -44,6 +45,10 @@ void ComponentWorld::setup(const GameComponent* next_to_this) {
         std::cerr << "Could not load player character \"" << char_path << "\"!" << std::endl;
         return; // TODO: Handle errors
     }
+
+    // Generate a new (most likely smaller) view
+    sf::Vector2f view_size(800, 600);
+    m_view = sf::View(player_pos, view_size);
 
     // Place player character. TODO: fix position and scale
     m_player.get_animated_sprite().setPosition(player_pos);

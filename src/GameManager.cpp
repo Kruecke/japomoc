@@ -123,7 +123,7 @@ void GameManager::pop_component() {
 std::shared_ptr<GameComponent> GameManager::next_component_to(GameComponent *component) const {
     std::lock_guard<std::mutex> lock(m_comp_stack_mutex); // TODO: shared lock
 
-    // Search component in stack
+    // Search component in stack. TODO (Improve): Search from end to begin!
     auto it = std::find_if(m_comp_stack.begin(), m_comp_stack.end(),
         [&](const std::shared_ptr<GameComponent> &stack_comp) {
             return stack_comp.get() == component;

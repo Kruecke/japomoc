@@ -22,29 +22,16 @@
  * SOFTWARE.
  */
 
-#pragma once
-
-#include <SFML/Graphics.hpp>
-
-#include "AnimatedCharacter.h"
-#include "GameComponent.h"
 #include "TileMap.h"
 
-class ComponentWorld : public GameComponent {
-public:
-    /* ----- GameComponent interface ---------------------------------------- */
-    virtual void setup(const GameComponent* next_to_this) override;
-    virtual void play() override;
-    virtual void pause() override;
-    virtual bool rendering_fills_scene() const override;
-    virtual std::shared_ptr<GameComponent> get_loading_screen() const override;
-    virtual void render_scene(sf::RenderWindow&, const sf::Time &frame_time_delta) override;
-    virtual void handle_event(sf::Event&) override;
-    virtual void handle_other() override;
-    /* ----- End of GameComponent interface --------------------------------- */
+#include "tinyxml2.h"
 
-private:
-    sf::View          m_view;
-    TileMap           m_tilemap;
-    AnimatedCharacter m_player;
-};
+bool TileMap::load_from_xml(const std::string &path) {
+    // TODO ... (Copy partly from AnimatedCharacter.cpp)
+
+    return false; // TODO -> true
+}
+
+void TileMap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+
+}

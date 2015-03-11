@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<level>
+    <tilesheet id="t16bt">resources/images/tiny-16-basic/basictiles.xml</tilesheet>
+    <tilemap>
+        <tile sheet_id="t16bt" sheet_num="72" map_x="0" map_y="0" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="72" map_x="1" map_y="0" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="72" map_x="0" map_y="1" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="72" map_x="1" map_y="1" map_lvl="0"/>
+    </tilemap>
+</level>
