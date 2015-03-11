@@ -57,7 +57,7 @@ int main() {
 
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(800, 600), "JaPomoC");
-    window.setVerticalSyncEnabled(true);
+    //window.setVerticalSyncEnabled(true); // TODO: To be or not to be?
     game_manager.set_window(window);
 
     // Do all the rendering in a thread.

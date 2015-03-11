@@ -74,10 +74,25 @@ std::shared_ptr<GameComponent> ComponentWorld::get_loading_screen() const {
 void ComponentWorld::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {
     window.setView(m_view);
 
-    // TODO: Implement
+    // Draw player character
     AnimatedSprite &player_sprite = m_player.get_animated_sprite();
+    const auto player_bounds = player_sprite.getLocalBounds();
+    const sf::Vector2f player_size(player_bounds.width, player_bounds.height);
+    player_sprite.setPosition(m_view.getCenter() - player_size / 2.0f);
     player_sprite.update(frame_time_delta);
     window.draw(player_sprite);
+
+    // TODO: Implement
+
+#ifndef NDEBUG
+    // Show frames per second
+    const auto milliseconds = frame_time_delta.asMilliseconds();
+    sf::Text fps(milliseconds == 0 ? "FPS: >1000" :
+        "FPS: " + std::to_string(1000 / frame_time_delta.asMilliseconds()),
+        m_game_manager->get_font());
+    fps.setPosition(m_view.getCenter() - m_view.getSize() / 2.0f);
+    window.draw(fps);
+#endif
 }
 
 void ComponentWorld::handle_event(sf::Event &event) {
