@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <tilesheet>
     <spritesheet>resources/images/tiny-16-basic/basictiles.png</spritesheet>
-    <tiledimensions x="16" y="16"/>
-    <tileelements rows="15" cols="8"/>
+    <tiledimension width="16" height="16"/>
+    <griddimension rows="15" cols="8"/>
 </tilesheet>

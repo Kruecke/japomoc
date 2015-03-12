@@ -26,14 +26,26 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <map>
 #include <string>
 #include <vector>
 
 class TileMap : public sf::Drawable {
+private:
+    static const int TILE_WIDTH  = 32;
+    static const int TILE_HEIGHT = 32;
+
+    struct Tile {
+        std::string     m_sheet_id;
+        sf::VertexArray m_tile_vertices;
+        int             m_tile_level;
+    };
+
 public:
     bool load_from_xml(const std::string &path);
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const override;
 
 private:
-    std::vector<sf::VertexArray> m_vertices;
+    std::map<std::string, sf::Texture> m_textures;
+    std::vector<Tile>                  m_tiles;
 };

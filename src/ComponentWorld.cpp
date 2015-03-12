@@ -79,6 +79,9 @@ std::shared_ptr<GameComponent> ComponentWorld::get_loading_screen() const {
 void ComponentWorld::render_scene(sf::RenderWindow &window, const sf::Time &frame_time_delta) {
     window.setView(m_view);
 
+    // Draw tile map
+    window.draw(m_tilemap);
+
     // Draw player character
     AnimatedSprite &player_sprite = m_player.get_animated_sprite();
     const auto player_bounds = player_sprite.getLocalBounds();
