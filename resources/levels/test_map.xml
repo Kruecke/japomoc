@@ -2,27 +2,33 @@
 <level>
     <tilesheet id="t16bt">resources/images/tiny-16-basic/basictiles.xml</tilesheet>
     <tilemap>
+        <!-- Place on top of other tiles -->
+        <tile sheet_id="t16bt" sheet_num="20" map_x="1" map_y="1" map_lvl="1"/>
+        <tile sheet_id="t16bt" sheet_num="12" map_x="2" map_y="3" map_lvl="1"/>
+
+        <!-- Bottom -->
         <tile sheet_id="t16bt" sheet_num="64" map_x="0" map_y="0" map_lvl="0"/>
         <tile sheet_id="t16bt" sheet_num="64" map_x="1" map_y="0" map_lvl="0"/>
-        <tile sheet_id="t16bt" sheet_num="64" map_x="2" map_y="0" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="65" map_x="2" map_y="0" map_lvl="0"/>
         <tile sheet_id="t16bt" sheet_num="64" map_x="3" map_y="0" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="64" map_x="4" map_y="0" map_lvl="0"/>
 
         <tile sheet_id="t16bt" sheet_num="64" map_x="0" map_y="1" map_lvl="0"/>
-        <tile sheet_id="t16bt" sheet_num="64" map_x="1" map_y="1" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="65" map_x="1" map_y="1" map_lvl="0"/>
         <tile sheet_id="t16bt" sheet_num="64" map_x="2" map_y="1" map_lvl="0"/>
         <tile sheet_id="t16bt" sheet_num="64" map_x="3" map_y="1" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="65" map_x="4" map_y="1" map_lvl="0"/>
 
-        <tile sheet_id="t16bt" sheet_num="64" map_x="0" map_y="2" map_lvl="0"/>
-        <tile sheet_id="t16bt" sheet_num="64" map_x="1" map_y="2" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="65" map_x="0" map_y="2" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="65" map_x="1" map_y="2" map_lvl="0"/>
         <tile sheet_id="t16bt" sheet_num="64" map_x="2" map_y="2" map_lvl="0"/>
         <tile sheet_id="t16bt" sheet_num="64" map_x="3" map_y="2" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="64" map_x="4" map_y="2" map_lvl="0"/>
 
         <tile sheet_id="t16bt" sheet_num="64" map_x="0" map_y="3" map_lvl="0"/>
         <tile sheet_id="t16bt" sheet_num="64" map_x="1" map_y="3" map_lvl="0"/>
         <tile sheet_id="t16bt" sheet_num="64" map_x="2" map_y="3" map_lvl="0"/>
-        <tile sheet_id="t16bt" sheet_num="64" map_x="3" map_y="3" map_lvl="0"/>
-
-        <!-- Place on top of other tiles -->
-        <tile sheet_id="t16bt" sheet_num="20" map_x="1" map_y="1" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="65" map_x="3" map_y="3" map_lvl="0"/>
+        <tile sheet_id="t16bt" sheet_num="64" map_x="4" map_y="3" map_lvl="0"/>
     </tilemap>
 </level>

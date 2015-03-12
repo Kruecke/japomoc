@@ -163,6 +163,7 @@ bool TileMap::load_from_xml(const std::string &path) {
             return false;
         }
         auto &tex = tilesheets.at(attr_sheet_id).at(std::stoi(attr_sheet_num)); // TODO: check conversion?
+        // TODO: This also might throw on illegal "sheet ids".
 
         const char *attr_map_x = tile_it->Attribute("map_x");
         if (attr_map_x == nullptr) {
