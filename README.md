@@ -10,7 +10,7 @@ On Debian-like systems, you can get your basic tools by installing the following
 # apt-get install git cmake build-essential
 ```
 
-#### Installing SFML
+#### Building SFML
 JaPomoC depends on the "Simple and Fast Multimedia Library". If you are running a Debian-like system, you can install SFML with the following instructions. For other operating systems, have a look at http://www.sfml-dev.org/tutorials/2.2/.
 
 As of now, it seems that there is no current or well packed repository version of SFML available, so you have to build SFML from source. Hopefully, this can be changed in the future.
@@ -30,7 +30,7 @@ $ make
 # make install
 ```
 
-#### Installing JaPomoC
+#### Building JaPomoC
 As of today, just clone this repository and do a normal cmake installation.
 ```
 $ git clone https://github.com/Kruecke/japomoc.git
@@ -44,10 +44,10 @@ Rules for `make install` are not implemented yet. Just run the game from the cur
 ### Installing on Windows
 These instructions base on Visual Studio 2013 Professional, but the free "Express" version should be absolutely sufficient for the build process. You can get a copy of it at http://www.visualstudio.com. Besides that, you need Git to download the recent copy of JaPomoC. You can get this free software at http://git-scm.com/download/win. Last but not least, get a copy of Cmake at http://www.cmake.org/. Install these three tools and move on to the next step.
 
-#### Installing SFML
-JaPomoC depends on the "Simple and Fast Multimedia Library". Get a copy of the library for your version of Visual Studio at http://www.sfml-dev.org/download/sfml/2.2/. Grab a 32 bit version, otherwise you have to alter this instruction slightly later on. Create a folder `Sources` somewhere and place the extracted folder `SFML-2.2` from the downloaded archive into it.
+#### Getting SFML
+JaPomoC depends on the "Simple and Fast Multimedia Library". Get a copy of the library for your version of Visual Studio at http://www.sfml-dev.org/download/sfml/2.2/. Grab a 32 bit version, otherwise you have to alter this instruction slightly later on. Create a folder `Sources` somewhere and place the folder `SFML-2.2` from the downloaded archive into it.
 
-#### Installing JaPomoC
+#### Building JaPomoC
 Next, start the installed Program "Git Bash" and switch to your created `Sources` folder.
 ```
 $ cd my/path/to/Sources
