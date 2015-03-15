@@ -1,15 +1,24 @@
 cmake_minimum_required(VERSION 2.8)
 
+# Project name
 project(japomoc)
+
+# Add sources
+add_executable(${PROJECT_NAME} src/AnimatedCharacter.cpp
+                               src/AnimatedSprite.cpp
+                               src/Animation.cpp
+                               src/ComponentMenu.cpp
+                               src/ComponentWorld.cpp
+                               src/GameComponent.cpp
+                               src/GameManager.cpp
+                               src/main.cpp
+                               src/TileMap.cpp
+                               src/tinyxml2.cpp)
 
 # Enable C++11 (and all warnings) for GCC
 if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 endif()
-
-# Add sources
-aux_source_directory(src SRC_LIST)
-add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 # OpenGL
 find_package(OpenGL REQUIRED)
