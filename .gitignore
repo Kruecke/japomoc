@@ -2,5 +2,8 @@
 build
 doc
 
+# KDevelop
+*.kdev*
+
 # Temp files
 *~
