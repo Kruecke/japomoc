@@ -11,7 +11,7 @@ On Debian-like systems, you can get your basic tools by installing the following
 ```
 
 #### Building SFML
-JaPomoC depends on the "Simple and Fast Multimedia Library". If you are running a Debian-like system, you can install SFML with the following instructions. For other operating systems, have a look at http://www.sfml-dev.org/tutorials/2.2/.
+JaPomoC depends on the "Simple and Fast Multimedia Library". If you are running a Debian-like system, you can install SFML with the following instructions. For other operating systems, have a look at http://www.sfml-dev.org/tutorials/.
 
 As of now, it seems that there is no current or well packed repository version of SFML available, so you have to build SFML from source. Hopefully, this can be changed in the future.
 
