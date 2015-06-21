@@ -40,7 +40,7 @@ static void render_function(const GameManager *game_manager, sf::RenderWindow *w
 
         // Let the game manager choose which component to render.
         game_manager->dispatch_rendering(*window, frame_timer.restart());
-        
+
         window->display();
     }
 }
@@ -79,7 +79,7 @@ int main() {
 
     // Join render thread
     render_thread.join();
-    
+
     // Finally, close main window
     window.close();
 
