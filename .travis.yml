@@ -1,6 +1,13 @@
 language: c++
 
 script:
- - mkdir build && cd build
+ # build and install SFML
+ - mkdir -p SFML_build && cd SFML_build
+ - cmake ../lib/SFML
+ - make
+ - sudo make install
+ - cd ..
+ # build JaPomoC
+ - mkdir -p build && cd build
  - cmake ..
  - make
