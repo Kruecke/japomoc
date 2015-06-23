@@ -1,6 +1,8 @@
 # JaPomoC
 Just another Pokémon Clone
 
+[![Build Status](https://travis-ci.org/Kruecke/japomoc.svg)](https://travis-ci.org/Kruecke/japomoc)
+
 ## Installation
 To download and install JaPomoC, make sure you have Git, Cmake and your basic build tools installed.
 
