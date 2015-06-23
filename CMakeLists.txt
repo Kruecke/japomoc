@@ -34,7 +34,10 @@ if(Threads_FOUND)
 endif()
 
 # SFML
-# This find module is propably not yet shipped with your cmake installation, so use a local copy.
+# This find module is propably not yet shipped with your cmake installation, so use a local copy that comes with the SFML submodule.
+if(NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/SFML/cmake/Modules/FindSFML.cmake")
+    message(FATAL_ERROR "FindSFML.cmake not found! Have you checked out JaPomoC with it submodules?")
+endif()
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/lib/SFML/cmake/Modules/" ${CMAKE_MODULE_PATH})
 find_package(SFML 2 COMPONENTS system window graphics audio REQUIRED) # network
 if(SFML_FOUND)
