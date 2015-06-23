@@ -1,13 +1,17 @@
 language: c++
 
+install:
+ # Install SFML dependencies
+ - sudo apt-get install libx11-dev libxrandr-dev libgl1-mesa-dev libx11-xcb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libudev-dev libglew-dev libjpeg8-dev libfreetype6-dev libopenal-dev libsndfile1-dev
+
 script:
- # build and install SFML
+ # Build and install SFML
  - mkdir -p SFML_build && cd SFML_build
  - cmake ../lib/SFML
  - make
  - sudo make install
  - cd ..
- # build JaPomoC
+ # Build JaPomoC
  - mkdir -p build && cd build
  - cmake ..
  - make
