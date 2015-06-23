@@ -49,17 +49,19 @@ These instructions base on Visual Studio 2013 Professional, but the free "Expres
 #### Downloading JaPomoC
 Start the installed Program "Git Bash" to open a command prompt and use `cd` to switch to a directory of your choise where you want to download JaPomoC to. Then run git to download the latest version of JaPomoC.
 ```
-$ cd path/to/some/folder
+$ cd path/to/some/folder # this is optional
 $ git clone https://github.com/Kruecke/japomoc.git
 ```
 
+Don't close "Git Bash" just yet. You need it later on.
+
 #### Getting SFML
-JaPomoC depends on the "Simple and Fast Multimedia Library". You could check out JaPomoCs submodules to get the latest sources, but most times it is more convenient to just download a prebuild version from http://www.sfml-dev.org/download.php. Make sure you download the files for your version of Visual Studio and grab a 32 bit version, otherwise you have to alter this instruction slightly later on. Once you've downloaded the archive, open your file explorer, extract the containing folder `SFML-2.x` and copy it's contents to `japomoc -> lib -> SFML`.
+JaPomoC depends on the "Simple and Fast Multimedia Library". You could check out JaPomoCs submodules to get the latest sources, but most times it is more convenient to just download a prebuild version from http://www.sfml-dev.org/download.php. Make sure you download the files for your version of Visual Studio and grab a 32 bit version, otherwise you have to alter this instruction slightly later on. Once you've downloaded the archive, open your file explorer, extract the containing folder `SFML-2.x` and copy it's contents to `japomoc` -> `lib` -> `SFML`.
 
 #### Building JaPomoC
-To build the Visual Studio solution for JaPomoC, first `cd` into the JaPomoC folder.
+To build the Visual Studio solution for JaPomoC, switch back to "Git Bash" and `cd` into the JaPomoC folder.
 ```
-$ cd path/to/some/folder/japomoc
+$ cd japomoc
 ```
 
 Next, type in the following lines to create the Visual Studio solution files in a subfolder called `build` and to copy some SFML binaries to our `build` folder.
@@ -69,6 +71,6 @@ $ cmake -D SFML_ROOT=lib/SFML ..
 $ cp ../lib/SFML/bin/* .
 ```
 
-Finally, open your file explorer once again, browse to `japomoc -> build` and double-click `japomoc.sln` to load the solution into Visual Studio. In your `Solution Explorer` (probably on the right side of your screen), right-click the `japomoc` project and choose `Set as StartUp Project`. Now you can click the green "Play" arrow at the top (or push F5) to run the game. (This can take a moment the first time you run it.)
+Finally, open your file explorer once again, browse to `japomoc` -> `build` and double-click `japomoc.sln` to load the solution into Visual Studio. In your `Solution Explorer` (probably on the right side of your screen), right-click the `japomoc` project and choose `Set as StartUp Project`. Now you can click the green "Play" arrow at the top (or push F5) to run the game. (This can take a moment the first time you run it.)
 
 Unfortunately there is no installation routine yet. You have to run the game from Visual Studio (or from the `build` directory via command line). Sorry. :P
