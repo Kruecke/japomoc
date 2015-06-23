@@ -30,7 +30,7 @@ endif()
 # Threads
 find_package(Threads REQUIRED)
 if(Threads_FOUND)
-    target_link_libraries (${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 endif()
 
 # SFML

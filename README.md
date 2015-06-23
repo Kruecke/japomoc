@@ -35,7 +35,7 @@ $ make
 #### Building JaPomoC
 As of today, just clone this repository and do a normal cmake installation.
 ```
-$ git clone https://github.com/Kruecke/japomoc.git
+$ git clone --recursive https://github.com/Kruecke/japomoc.git
 $ cd japomoc
 $ mkdir build && cd build
 $ cmake ..
@@ -47,7 +47,7 @@ Rules for `make install` are not implemented yet. Just run the game from the cur
 These instructions base on Visual Studio 2013 Professional, but the free "Express" version should be absolutely sufficient for the build process. You can get a copy of it at http://www.visualstudio.com. Besides that, you need Git to download the recent copy of JaPomoC. You can get this free software at http://git-scm.com/download/win. Last but not least, get a copy of Cmake at http://www.cmake.org/. Install these three tools and move on to the next step.
 
 #### Getting SFML
-JaPomoC depends on the "Simple and Fast Multimedia Library". Get a copy of the library for your version of Visual Studio at http://www.sfml-dev.org/download/sfml/2.2/. Grab a 32 bit version, otherwise you have to alter this instruction slightly later on. Create a folder `Sources` somewhere and place the folder `SFML-2.2` from the downloaded archive into it.
+JaPomoC depends on the "Simple and Fast Multimedia Library". Get a copy of the library for your version of Visual Studio at http://www.sfml-dev.org/download.php. Grab a 32 bit version, otherwise you have to alter this instruction slightly later on. Create a folder `Sources` somewhere and place the folder `SFML-2.2` from the downloaded archive into it.
 
 #### Building JaPomoC
 Next, start the installed Program "Git Bash" and switch to your created `Sources` folder.
@@ -56,7 +56,7 @@ $ cd my/path/to/Sources
 ```
 Now download JaPomoC and generate the Visual Studio solution files. Make sure that you are in the directory where you previously placed the `SFML-2.2` folder. You can verify that by typing `$ ls` in the command prompt.
 ```
-$ git clone https://github.com/Kruecke/japomoc.git
+$ git clone --recursive https://github.com/Kruecke/japomoc.git
 $ cd japomoc
 $ mkdir build && cd build
 $ cmake -D SFML_ROOT=../SFML-2.2 ..
