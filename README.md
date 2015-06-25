@@ -6,7 +6,7 @@ Just another Pokémon Clone
 ## Installation
 This guide describes how to install JaPomoC on Ubuntu/Debian or Windows. If you are using an operating system other than these, have a look at [Running Cmake](http://www.cmake.org/runningcmake/) and [Compiling SFML](http://www.sfml-dev.org/tutorials/) to get an idea on how to build this software.
 
-If you are used to build software from sources, you might just take a brief look at [.travis.yml] to get a quick overview on how to build this project.
+If you are used to build software from sources, you might just take a brief look at [.travis.yml](https://github.com/Kruecke/japomoc/blob/master/.travis.yml) to get a quick overview on how to build this project.
 
 ### Installing on Linux
 On Debian-like systems, you can get Git and your basic building tools by installing the following packages.
@@ -19,7 +19,7 @@ This is the new way. TODO: Describe this and remove the old description.
 $ git clone --recursive https://github.com/Kruecke/japomoc.git
 $ cd japomoc
 
-$ mkdir build_sfml && cd build_sfml
+$ mkdir SFML_build && cd SFML_build
 $ cmake ../lib/SFML
 $ make
 $ sudo make install
@@ -65,7 +65,7 @@ Rules for `make install` are not implemented yet. Just run the game from the cur
 These instructions base on Visual Studio 2013 Professional, but the free "Express" version should be absolutely sufficient for the build process. You can get a copy of it at http://www.visualstudio.com. Besides that, you need Git to download the recent copy of JaPomoC. You can get this free software at http://git-scm.com/download/win. Last but not least, get a copy of Cmake at http://www.cmake.org/. Install these three tools and move on to the next step.
 
 #### Downloading JaPomoC
-Start the installed Program "Git Bash" to open a command prompt and use `cd` to switch to a directory of your choise where you want to download JaPomoC to. Then run git to download the latest version of JaPomoC.
+Start the installed Program "Git Bash" to open a command prompt and use `cd` to switch to a directory of your choice where you want to download JaPomoC to. Then run git to download the latest version of JaPomoC.
 ```
 $ cd path/to/some/folder # this is optional
 $ git clone https://github.com/Kruecke/japomoc.git
