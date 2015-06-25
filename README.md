@@ -4,12 +4,30 @@ Just another Pokémon Clone
 [![Build Status](https://travis-ci.org/Kruecke/japomoc.svg)](https://travis-ci.org/Kruecke/japomoc)
 
 ## Installation
-To download and install JaPomoC, make sure you have Git, Cmake and your basic build tools installed.
+This guide describes how to install JaPomoC on Ubuntu/Debian or Windows. If you are using an operating system other than these, have a look at [Running Cmake](http://www.cmake.org/runningcmake/) and [Compiling SFML](http://www.sfml-dev.org/tutorials/) to get an idea on how to build this software.
+
+If you are used to build software from sources, you might just take a brief look at [.travis.yml] to get a quick overview on how to build this project.
 
 ### Installing on Linux
-On Debian-like systems, you can get your basic tools by installing the following packages.
+On Debian-like systems, you can get Git and your basic building tools by installing the following packages.
 ```
 # apt-get install git cmake build-essential
+```
+
+This is the new way. TODO: Describe this and remove the old description.
+```
+$ git clone --recursive https://github.com/Kruecke/japomoc.git
+$ cd japomoc
+
+$ mkdir build_sfml && cd build_sfml
+$ cmake ../lib/SFML
+$ make
+$ sudo make install
+$ cd ..
+
+$ mkdir build && cd build
+$ cmake ..
+$ make
 ```
 
 #### Building SFML
