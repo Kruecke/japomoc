@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.14)
 
 # Project name
 project(japomoc)
@@ -19,6 +19,7 @@ add_executable(${PROJECT_NAME} src/AnimatedCharacter.cpp
 if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 endif()
+#set (CMAKE_CXX_STANDARD 11) # use instead?
 
 # OpenGL
 find_package(OpenGL REQUIRED)
@@ -34,16 +35,13 @@ if(Threads_FOUND)
 endif()
 
 # SFML
-# This find module is propably not yet shipped with your cmake installation, so use a local copy that comes with the SFML submodule.
-if(NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/SFML/cmake/Modules/FindSFML.cmake")
-    message(FATAL_ERROR "FindSFML.cmake not found! Have you checked out JaPomoC with it submodules?")
-endif()
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/lib/SFML/cmake/Modules/" ${CMAKE_MODULE_PATH})
-find_package(SFML 2 COMPONENTS system window graphics audio REQUIRED) # network
-if(SFML_FOUND)
-    include_directories(${SFML_INCLUDE_DIR})
-    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
-endif()
+include(FetchContent)
+FetchContent_Declare(sfml
+	GIT_REPOSITORY https://github.com/SFML/SFML.git
+	GIT_TAG 2.5.1
+)
+FetchContent_MakeAvailable(sfml)
+target_link_libraries(japomoc sfml-system sfml-window sfml-graphics sfml-audio)
 
 # Copy game resources to build directory. Should be replaced when installation is configured.
 file(COPY resources DESTINATION .)
