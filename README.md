@@ -15,14 +15,18 @@ On Debian-like systems, you can get Git and your basic building tools by install
 ```
 JaPomoC depends on the "Simple and Fast Multimedia Library". If you are running a Debian-like system, you can install SFML with the following instructions. For other operating systems, have a look at http://www.sfml-dev.org/tutorials/.
 
-If SFML is in your repository, you can use that version
+If SFML is in your repository, you can use that version.
 ```
 # apt install libsfml-dev
 ```
 
-Otherwise, SFML is checked out and buid with JaPomoC. Install SFML dependencies (tested on Ubuntu 20.04)
+Otherwise, SFML is checked out and buid with JaPomoC. Just install SFML dependencies.
 ```
-# apt install libx11-dev libxrandr-dev libopengl-dev libglx-dev libgl1-mesa-dev libudev-dev libfreetype-dev libopenal-dev libvorbis-dev libflac-dev
+# # Tested on Ubuntu 18.04 (will also require more recent version of cmake, though)
+# apt install libx11-dev libxrandr-dev libgl1-mesa-dev libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev
+
+# # Tested on Ubuntu 20.04
+# apt install libx11-dev libxrandr-dev libgl1-mesa-dev libudev-dev libfreetype-dev libopenal-dev libvorbis-dev libflac-dev # And? libopengl-dev libglx-dev
 ```
 
 Build JaPomoC
