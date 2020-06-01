@@ -1,7 +1,7 @@
 # JaPomoC
 Just another Pokémon Clone
 
-[![Build Status](https://travis-ci.org/Kruecke/japomoc.svg)](https://travis-ci.org/Kruecke/japomoc)
+[![Build Status](https://travis-ci.org/fklemme/japomoc.svg)](https://travis-ci.org/fklemme/japomoc)
 
 ## Installation
 This guide describes how to install JaPomoC on Ubuntu/Debian or Windows. If you are using an operating system other than these, have a look at [Running Cmake](http://www.cmake.org/runningcmake/) and [Compiling SFML](http://www.sfml-dev.org/tutorials/) to get an idea on how to build this software.
