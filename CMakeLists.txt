@@ -24,11 +24,7 @@ list(APPEND CMAKE_MODULE_PATH /usr/share/SFML/cmake/Modules)
 
 # SFML
 find_package(SFML 2 COMPONENTS system window graphics audio)
-if(SFML_FOUND)
-    # TODO: Why no need for SFML include here?
-    #include_directories(${SFML_INCLUDE_DIR})
-    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
-else()
+if(NOT SFML_FOUND)
     message(STATUS "SFML not found. Fetching from Github...")
     include(FetchContent)
     FetchContent_Declare(
@@ -47,9 +43,8 @@ else()
         # CMake 3.14+
         FetchContent_MakeAvailable(sfml)
     endif()
-    # TODO: Why is this different from when SFML has been found?
-    target_link_libraries(${PROJECT_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
 endif()
+target_link_libraries(${PROJECT_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
 
 # Threads, also used by SFML
 find_package(Threads REQUIRED)

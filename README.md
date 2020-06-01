@@ -20,13 +20,9 @@ If SFML is in your repository, you can use that version.
 # apt install libsfml-dev
 ```
 
-Otherwise, SFML is checked out and buid with JaPomoC. Just install SFML dependencies.
+Otherwise, SFML is checked out and build with JaPomoC. Somd dependencies need to be installed. Tested on Ubuntu 20.04 LTS and Ubuntu 18.04 LTS. (The latter will also require a more recent version of cmake, though)
 ```
-# # Tested on Ubuntu 18.04 (will also require more recent version of cmake, though)
 # apt install libx11-dev libxrandr-dev libgl1-mesa-dev libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev
-
-# # Tested on Ubuntu 20.04
-# apt install libx11-dev libxrandr-dev libgl1-mesa-dev libudev-dev libfreetype-dev libopenal-dev libvorbis-dev libflac-dev # And? libopengl-dev libglx-dev
 ```
 
 Build JaPomoC
