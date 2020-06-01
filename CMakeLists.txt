@@ -24,20 +24,20 @@ if(NOT SFML_FOUND)
     message(STATUS "Local SFML installation not found. Fetching from Github...")
     include(FetchContent)
     FetchContent_Declare(
-        SFML
+        sfml
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 2.5.1
     )
     if(${CMAKE_VERSION} VERSION_LESS 3.14)
         # CMake 3.11+
-        FetchContent_GetProperties(SFML)
-        if(NOT SFML_POPULATED)
-            FetchContent_Populate(SFML)
-            add_subdirectory(${SFML_SOURCE_DIR} ${SFML_BINARY_DIR})
+        FetchContent_GetProperties(sfml)
+        if(NOT sfml_POPULATED)
+            FetchContent_Populate(sfml)
+            add_subdirectory(${sfml_SOURCE_DIR} ${sfml_BINARY_DIR})
         endif()
     else()
         # CMake 3.14+
-        FetchContent_MakeAvailable(SFML)
+        FetchContent_MakeAvailable(sfml)
     endif()
 endif()
 target_link_libraries(${PROJECT_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
@@ -50,3 +50,4 @@ endif()
 
 # Copy game resources to build directory. Should be replaced when installation is configured.
 file(COPY resources DESTINATION .)
+
