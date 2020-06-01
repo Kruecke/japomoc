@@ -18,17 +18,6 @@ add_executable(${PROJECT_NAME} src/AnimatedCharacter.cpp
 # Use modern C++
 set (CMAKE_CXX_STANDARD 11)
 
-# Downwards compatibility, from https://cliutils.gitlab.io/modern-cmake/chapters/projects/fetch.html
-if(${CMAKE_VERSION} VERSION_LESS 3.14)
-    macro(FetchContent_MakeAvailable NAME)
-        FetchContent_GetProperties(${NAME})
-        if(NOT ${NAME}_POPULATED)
-            FetchContent_Populate(${NAME})
-            add_subdirectory(${${NAME}_SOURCE_DIR} ${${NAME}_BINARY_DIR})
-        endif()
-    endmacro()
-endif()
-
 # SFML
 find_package(SFML 2 COMPONENTS system window graphics audio)
 if(NOT SFML_FOUND)
@@ -37,7 +26,17 @@ if(NOT SFML_FOUND)
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 2.5.1
     )
-    FetchContent_MakeAvailable(SFML)
+    if(${CMAKE_VERSION} VERSION_LESS 3.14)
+        # CMake 3.11+
+        FetchContent_GetProperties(SFML)
+        if(NOT SFML_POPULATED)
+            FetchContent_Populate(SFML)
+            add_subdirectory(${SFML_SOURCE_DIR} ${SFML_BINARY_DIR})
+        endif()
+    else()
+        # CMake 3.14+
+        FetchContent_MakeAvailable(SFML)
+    endif()
 endif()
 target_link_libraries(${PROJECT_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
 
