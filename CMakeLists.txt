@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.11)
 
 # Program name
 project(japomoc)
@@ -17,6 +17,17 @@ add_executable(${PROJECT_NAME} src/AnimatedCharacter.cpp
 
 # Use modern C++
 set (CMAKE_CXX_STANDARD 11)
+
+# Downwards compatibility, from https://cliutils.gitlab.io/modern-cmake/chapters/projects/fetch.html
+if(${CMAKE_VERSION} VERSION_LESS 3.14)
+    macro(FetchContent_MakeAvailable NAME)
+        FetchContent_GetProperties(${NAME})
+        if(NOT ${NAME}_POPULATED)
+            FetchContent_Populate(${NAME})
+            add_subdirectory(${${NAME}_SOURCE_DIR} ${${NAME}_BINARY_DIR})
+        endif()
+    endmacro()
+endif()
 
 # SFML
 find_package(SFML 2 COMPONENTS system window graphics audio)
