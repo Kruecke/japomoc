@@ -2,8 +2,8 @@
 build
 doc
 
-# KDevelop
-*.kdev*
+# Visual Studio
+/.vs
 
 # Temp files
 *~
