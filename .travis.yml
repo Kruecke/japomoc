@@ -4,12 +4,13 @@ language: c++
 dist: bionic
 
 install:
- # Install SFML dependencies
- - sudo apt-get install libx11-dev libxrandr-dev libgl1-mesa-dev libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev
- #- sudo apt-get install -qq libx11-dev libxrandr-dev libgl1-mesa-dev libx11-xcb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libudev-dev libglew-dev libjpeg8-dev libfreetype6-dev libopenal-dev libsndfile1-dev
+    # Install SFML from repositories
+    - sudo apt-get install libsfml-dev
+    # Install SFML dependencies, for SMFL fetch from Github
+    #- sudo apt-get install libx11-dev libxrandr-dev libgl1-mesa-dev libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev
 
 script:
- # Build JaPomoC
- - mkdir -p build && cd build
- - cmake ..
- - make
+    # Build JaPomoC
+    - mkdir -p build && cd build
+    - cmake ..
+    - make
