@@ -11,7 +11,7 @@ If you are used to build software from sources, you might just take a brief look
 ### Installing on Linux
 On Debian-like systems, you can get Git and your basic building tools by installing the following packages.
 ```
-# apt install git cmake build-essential
+# apt install git cmake make g++
 ```
 JaPomoC depends on the "Simple and Fast Multimedia Library". If you are running a Debian-like system, you can install SFML with the following instructions. For other operating systems, have a look at http://www.sfml-dev.org/tutorials/.
 
