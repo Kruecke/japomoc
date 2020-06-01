@@ -11,57 +11,35 @@ If you are used to build software from sources, you might just take a brief look
 ### Installing on Linux
 On Debian-like systems, you can get Git and your basic building tools by installing the following packages.
 ```
-# apt-get install git cmake build-essential
+# apt install git cmake build-essential
 ```
-
-This is the new way. TODO: Describe this and remove the old description.
-```
-$ git clone --recursive https://github.com/Kruecke/japomoc.git
-$ cd japomoc
-
-$ mkdir SFML_build && cd SFML_build
-$ cmake ../lib/SFML
-$ make
-$ sudo make install
-$ cd ..
-
-$ mkdir build && cd build
-$ cmake ..
-$ make
-```
-
-#### Building SFML
 JaPomoC depends on the "Simple and Fast Multimedia Library". If you are running a Debian-like system, you can install SFML with the following instructions. For other operating systems, have a look at http://www.sfml-dev.org/tutorials/.
 
-As of now, it seems that there is no current or well packed repository version of SFML available, so you have to build SFML from source. Hopefully, this can be changed in the future.
-
-Install the necessary dependencies from the repositories.
+If SFML is in your repository, you can use that version
 ```
-# apt-get install libx11-dev libxrandr-dev libgl1-mesa-dev libx11-xcb-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-randr0-dev libxcb-util0-dev libudev-dev libglew-dev libjpeg8-dev libfreetype6-dev libopenal-dev libsndfile1-dev
+# apt install libsfml-dev
 ```
 
-Next, clone the github repository, build everything and finally install SFML.
+Otherwise, SFML is checked out and buid with JaPomoC. Install SFML dependencies (tested on Ubuntu 20.04)
 ```
-$ git clone https://github.com/LaurentGomila/SFML.git
-$ cd SFML
-$ mkdir build && cd build
-$ cmake ..
-$ make
-# make install
+# apt install libx11-dev libxrandr-dev libopengl-dev libglx-dev libgl1-mesa-dev libudev-dev libfreetype-dev libopenal-dev libvorbis-dev libflac-dev
 ```
 
-#### Building JaPomoC
-As of today, just clone this repository and do a normal cmake installation.
+Build JaPomoC
 ```
-$ git clone --recursive https://github.com/Kruecke/japomoc.git
+$ git clone https://github.com/Kruecke/japomoc.git
 $ cd japomoc
+
 $ mkdir build && cd build
 $ cmake ..
 $ make
 ```
+
 Rules for `make install` are not implemented yet. Just run the game from the current build directory by executing `$ ./japomoc`.
 
 ### Installing on Windows
+TODO: Needs to be updated.
+
 These instructions base on Visual Studio 2013 Professional, but the free "Express" version should be absolutely sufficient for the build process. You can get a copy of it at http://www.visualstudio.com. Besides that, you need Git to download the recent copy of JaPomoC. You can get this free software at http://git-scm.com/download/win. Last but not least, get a copy of Cmake at http://www.cmake.org/. Install these three tools and move on to the next step.
 
 #### Downloading JaPomoC
