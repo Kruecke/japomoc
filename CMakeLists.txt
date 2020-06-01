@@ -19,12 +19,17 @@ add_executable(${PROJECT_NAME} src/AnimatedCharacter.cpp
                                src/tinyxml2.cpp)
 
 # TODO: There should be a cleaner solution for this!?
+#       (I think this is only needed when not using default CMake)
 list(APPEND CMAKE_MODULE_PATH /usr/share/SFML/cmake/Modules)
 
 # SFML
-find_package(SFML 2 QUIET COMPONENTS system window graphics audio)
-if(NOT SFML_FOUND)
-    message(STATUS "Local SFML installation not found. Fetching from Github...")
+find_package(SFML 2 COMPONENTS system window graphics audio)
+if(SFML_FOUND)
+    # TODO: Why no need for SFML include here?
+    #include_directories(${SFML_INCLUDE_DIR})
+    target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
+else()
+    message(STATUS "SFML not found. Fetching from Github...")
     include(FetchContent)
     FetchContent_Declare(
         sfml
@@ -42,8 +47,9 @@ if(NOT SFML_FOUND)
         # CMake 3.14+
         FetchContent_MakeAvailable(sfml)
     endif()
+    # TODO: Why is this different from when SFML has been found?
+    target_link_libraries(${PROJECT_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
 endif()
-target_link_libraries(${PROJECT_NAME} sfml-system sfml-window sfml-graphics sfml-audio)
 
 # Threads, also used by SFML
 find_package(Threads REQUIRED)
