@@ -34,6 +34,9 @@
 static void render_function(const GameManager *game_manager, sf::RenderWindow *window) {
     sf::Clock frame_timer;
 
+	// Enable OpenGL context in new thread
+	window->setActive(true);
+
     // Handle rendering
     while (!game_manager->get_exit()) {
         window->clear(sf::Color::Black);
