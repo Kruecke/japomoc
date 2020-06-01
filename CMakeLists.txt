@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.11)
 # Program name
 project(japomoc)
 
+# Use modern C++
+set (CMAKE_CXX_STANDARD 11)
+
 # Add sources
 add_executable(${PROJECT_NAME} src/AnimatedCharacter.cpp
                                src/AnimatedSprite.cpp
@@ -15,14 +18,13 @@ add_executable(${PROJECT_NAME} src/AnimatedCharacter.cpp
                                src/TileMap.cpp
                                src/tinyxml2.cpp)
 
-# Use modern C++
-set (CMAKE_CXX_STANDARD 11)
-
 # SFML
-find_package(SFML 2 COMPONENTS system window graphics audio)
+find_package(SFML 2 QUIET COMPONENTS system window graphics audio)
 if(NOT SFML_FOUND)
+    message(STATUS "Local SFML installation not found. Fetching from Github...")
     include(FetchContent)
-    FetchContent_Declare(SFML
+    FetchContent_Declare(
+        SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 2.5.1
     )
