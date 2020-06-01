@@ -18,6 +18,9 @@ add_executable(${PROJECT_NAME} src/AnimatedCharacter.cpp
                                src/TileMap.cpp
                                src/tinyxml2.cpp)
 
+# TODO: There should be a cleaner solution for this!?
+list(APPEND CMAKE_MODULE_PATH /usr/share/SFML/cmake/Modules)
+
 # SFML
 find_package(SFML 2 QUIET COMPONENTS system window graphics audio)
 if(NOT SFML_FOUND)

@@ -1,13 +1,13 @@
-language: c++
+language: cpp
 
 # Ubuntu 18.04
 dist: bionic
 
 install:
-    # Install SFML from repositories
+    # Install SFML from system repositories
     - sudo apt-get install libsfml-dev
-    # Install SFML dependencies, for SMFL fetch from Github
-    #- sudo apt-get install libx11-dev libxrandr-dev libgl1-mesa-dev libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev
+    # Otherwise, for SFML fetch from Github, install dependencies
+    # - sudo apt-get install libx11-dev libxrandr-dev libgl1-mesa-dev libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev
 
 script:
     # Build JaPomoC
