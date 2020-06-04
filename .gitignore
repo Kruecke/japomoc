@@ -3,7 +3,8 @@ build
 doc
 
 # Visual Studio
-/.vs
+\.vs
+\.vscode
 
 # Temp files
 *~
